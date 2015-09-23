@@ -10,6 +10,7 @@
 #import "RollDownView.h"
 #import "Tools.h"
 #import "Colors.h"
+#import "Mixpanel.h"
 
 
 //__________________________________________________________________________________________________
@@ -851,6 +852,9 @@ ThirdSeparatorView.frame =  CGRectMake(SEPARATOR_END_MARGIN, THIRD_SEPARATOR_TOP
 {
   NSLog(@"0 loginNewUser");
   ParseIsUsernameAlreadyInUse(Username, ^(BOOL alreadyExists, NSError* error)
+
+//Mixpanel *mixpanel = [Mixpanel sharedInstance];
+
   {
     NSLog(@"ParseIsUsernameAlreadyInUse success: %d, error: %@", alreadyExists, error);
     ParseUser* user = GetCurrentParseUser();
@@ -880,6 +884,21 @@ ThirdSeparatorView.frame =  CGRectMake(SEPARATOR_END_MARGIN, THIRD_SEPARATOR_TOP
   });
 }
 //__________________________________________________________________________________________________
+
+
+- (void) identity: (NSString *) distinctId;
+
+{
+
+    Mixpanel *mixpanel  = [Mixpanel sharedInstance];
+
+    [mixpanel identify:mixpanel.distinctId];
+
+    [mixpanel.people set:@{@"FullName":@""}];
+
+
+}
+//_________________________
 
 - (void)terminateLogin:(BOOL)newUser
 {

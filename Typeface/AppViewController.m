@@ -16,6 +16,7 @@
 #import "TypingView.h"
 #import "UnreadMessages.h"
 #import "ViewStackView.h"
+#import "Mixpanel.h"
 //__________________________________________________________________________________________________
 
 #define BE_YOUR_BEST_FRIEND 0 //!< Define to 1 to declare the current user to be his own friend.
@@ -242,6 +243,7 @@ static AppViewController* MainViewController = nil;
 - (void)applicationDidBecomeActive
 {
   NSLog(@"applicationDidBecomeActive");
+
   if ((GetCurrentParseUser() != nil) && MainViewController->LoggedIn)
   {
     [self loadReceivedMessages:^(BOOL hasNewData)

@@ -29,22 +29,13 @@ typedef void(^BlockBfrAction)(UIBackgroundFetchResult result);
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
-
-#define MIXPANEL_TOKEN @"fa18cd6e4fab94ebc8433e48537ccc16"
+    #define MIXPANEL_TOKEN @"b3152c0c9f9d07b8b65bfcfe849194c0"
 
     // Initialize the library with your
     // Mixpanel project token, MIXPANEL_TOKEN
-    [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
+[Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
 
-
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
-
-    [mixpanel track:@"takeSnapshot"];
-    [mixpanel track: @"inviteButtonPressed"];
-    [mixpanel track: @"ParseSendMessage"];
-    [mixpanel track:@"touchesBegan"];
-
-
+    
 
   // Override point for customization after application launch.
   [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];

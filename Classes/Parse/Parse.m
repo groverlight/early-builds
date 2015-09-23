@@ -12,6 +12,7 @@
 #import "ParseMessage.h"
 #import "Tools.h"
 #import "UnreadMessages.h"
+#import "Mixpanel.h"
 //__________________________________________________________________________________________________
 
 #define PARSE_USER_TOKEN_DEFAULTS_KEY @"ParseUserToken" //!< The key to retrieve the Parse token in the user defaults.
@@ -125,7 +126,7 @@ BOOL ParseInitialization
   }
   else
   {
-//    NSLog(@"--- currentUser: %p", GetCurrentParseUser());
+// NSLog(@"--- currentUser: %p", GetCurrentParseUser());
     [ParseUser becomeInBackground:parseUserToken block:^(PFUser* user, NSError* error)
     {
 //      NSLog(@"--- user: %p", user);
@@ -272,6 +273,13 @@ static void ParseSendMessageBody
   BlockBoolErrorAction  completion      //!< The block to call when the message has been sent.
 )
 {
+
+
+//    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+//
+//    [mixpanel track:@"ParseSendMessageBody"];
+
+
   NSLog(@"1 ParseSendMessageBody");
   ParseMessage* parse_message           = [ParseMessage object];
   parse_message.time                    = msg->Timestamp;
@@ -350,7 +358,14 @@ void ParseSendMessage
   BlockBoolErrorAction  completion  //!< The block to call when the message has been sent.
 )
 {
+
   NSLog(@"1 ParseSendMessage start");
+
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+
+    [mixpanel track:@"ParseSendMessage"];
+
+
   if (msg == nil)
   {
     NSLog(@"2 ParseSendMessage");
