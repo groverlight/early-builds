@@ -851,9 +851,15 @@ ThirdSeparatorView.frame =  CGRectMake(SEPARATOR_END_MARGIN, THIRD_SEPARATOR_TOP
 - (void)loginNewUser
 {
   NSLog(@"0 loginNewUser");
-  ParseIsUsernameAlreadyInUse(Username, ^(BOOL alreadyExists, NSError* error)
 
-//Mixpanel *mixpanel = [Mixpanel sharedInstance];
+
+    Mixpanel *mixpanel  = [Mixpanel sharedInstance];
+
+    [mixpanel identify:mixpanel.distinctId];
+
+    [mixpanel.people set:@{@"FullName":@"Arthur Cilley"}];
+
+  ParseIsUsernameAlreadyInUse(Username, ^(BOOL alreadyExists, NSError* error)
 
   {
     NSLog(@"ParseIsUsernameAlreadyInUse success: %d, error: %@", alreadyExists, error);
@@ -869,8 +875,9 @@ ThirdSeparatorView.frame =  CGRectMake(SEPARATOR_END_MARGIN, THIRD_SEPARATOR_TOP
       user.fullName     = FullName;
       user.phoneNumber  = FullPhoneNumber;
       [user saveInBackgroundWithBlock:^(BOOL success, NSError* save_error)
-      {
-        if (success)
+
+        {
+          if (success)
         {
           [self terminateLogin:YES];
         }
@@ -886,19 +893,6 @@ ThirdSeparatorView.frame =  CGRectMake(SEPARATOR_END_MARGIN, THIRD_SEPARATOR_TOP
 //__________________________________________________________________________________________________
 
 
-- (void) identity: (NSString *) distinctId;
-
-{
-
-    Mixpanel *mixpanel  = [Mixpanel sharedInstance];
-
-    [mixpanel identify:mixpanel.distinctId];
-
-    [mixpanel.people set:@{@"FullName":@""}];
-
-
-}
-//_________________________
 
 - (void)terminateLogin:(BOOL)newUser
 {
@@ -922,6 +916,7 @@ ThirdSeparatorView.frame =  CGRectMake(SEPARATOR_END_MARGIN, THIRD_SEPARATOR_TOP
   return LoginDoneAction;
 }
 //__________________________________________________________________________________________________
+
 
 //! Show the login view.
 - (void)showAnimated:(BOOL)animated fromStart:(BOOL)fromStart
