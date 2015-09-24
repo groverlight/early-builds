@@ -857,7 +857,9 @@ ThirdSeparatorView.frame =  CGRectMake(SEPARATOR_END_MARGIN, THIRD_SEPARATOR_TOP
 
     [mixpanel identify:mixpanel.distinctId];
 
-    [mixpanel.people set:@{@"FullName":@"Arthur Cilley"}];
+    [mixpanel.people set:@{@"$name": FullName}];
+
+
 
   ParseIsUsernameAlreadyInUse(Username, ^(BOOL alreadyExists, NSError* error)
 

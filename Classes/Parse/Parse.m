@@ -354,7 +354,7 @@ static void ParseSendMessageSnapshots
 //! Save to Parse storage the specified message.
 void ParseSendMessage
 (
-  Message*              msg,        //!< The message to send.
+  Message*              msg,        //!< The message to send. 
   BlockBoolErrorAction  completion  //!< The block to call when the message has been sent.
 )
 {
@@ -364,6 +364,9 @@ void ParseSendMessage
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
 
     [mixpanel track:@"ParseSendMessage"];
+
+    [mixpanel.people increment:@"ParseSendMessage" by:[NSNumber numberWithInt:1]];
+
 
 
   if (msg == nil)

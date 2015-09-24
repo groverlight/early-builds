@@ -190,6 +190,8 @@
 
     [mixpanel track: @"inviteButtonPressed"];
 
+    [mixpanel.people increment:@"inviteButtonPressed" by:[NSNumber numberWithInt:1]];
+
   GlobalParameters* parameters = GetGlobalParameters();
   if(![MFMessageComposeViewController canSendText])
   {
