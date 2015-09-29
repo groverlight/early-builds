@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27DCC7EE1BB73263009CD3A6 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DCC7ED1BB73263009CD3A6 /* Contacts.framework */; };
 		4B54798E0871C1CD30766BD2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADC11EAC3B02F3A8EFCAC90A /* libPods.a */; };
 		B617F3271AFFB28F0092EF3C /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = B617F3261AFFB28F0092EF3C /* Menu.m */; };
 		B61B60491AF60A6A00EE2060 /* NetworkActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = B61B60481AF60A6A00EE2060 /* NetworkActivityView.m */; };
@@ -100,6 +101,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		27DCC7ED1BB73263009CD3A6 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
 		ADC11EAC3B02F3A8EFCAC90A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B617F3251AFFB28F0092EF3C /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Menu.h; path = NewClasses/Various/Menu.h; sourceTree = "<group>"; };
 		B617F3261AFFB28F0092EF3C /* Menu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Menu.m; path = NewClasses/Various/Menu.m; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27DCC7EE1BB73263009CD3A6 /* Contacts.framework in Frameworks */,
 				F45A1AA51B857B220004B506 /* Accounts.framework in Frameworks */,
 				F45A1AA31B857B1A0004B506 /* Social.framework in Frameworks */,
 				B6B982BB1AECD619009A8423 /* MobileCoreServices.framework in Frameworks */,
@@ -640,6 +643,7 @@
 		B6E7AAC01868512800DBB0EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				27DCC7ED1BB73263009CD3A6 /* Contacts.framework */,
 				F45A1AA41B857B220004B506 /* Accounts.framework */,
 				F45A1AA21B857B1A0004B506 /* Social.framework */,
 				B6B982B51AEB7B25009A8423 /* Bolts.framework */,
@@ -751,13 +755,13 @@
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					B6E7AABD1868512800DBB0EB = {
-						DevelopmentTeam = 4THJ5Z3YGF;
+						DevelopmentTeam = KEKFU6H295;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -1009,8 +1013,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Grover Light (4MBTY8L594)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Grover Light (4MBTY8L594)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1033,7 +1037,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.groverlight.Testface;
 				PRODUCT_NAME = Typeface;
-				PROVISIONING_PROFILE = "6be2d633-488f-42ee-93f8-af9af660a991";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1045,8 +1049,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Grover Light (4MBTY8L594)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Grover Light (4MBTY8L594)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1069,7 +1073,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.groverlight.Testface;
 				PRODUCT_NAME = Typeface;
-				PROVISIONING_PROFILE = "6be2d633-488f-42ee-93f8-af9af660a991";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1118,8 +1122,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Grover Light (4MBTY8L594)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Grover Light (4MBTY8L594)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1142,7 +1146,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.groverlight.Testface;
 				PRODUCT_NAME = Typeface;
-				PROVISIONING_PROFILE = "6be2d633-488f-42ee-93f8-af9af660a991";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

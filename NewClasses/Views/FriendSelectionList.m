@@ -15,6 +15,7 @@
 #import "StillImageCapture.h"
 #import "ThreeDotsPseudoButtonView.h"
 #import "TopBarView.h"
+#import <Contacts/Contacts.h>
 //__________________________________________________________________________________________________
 
 #define REFRESH_THRESHOLD_OFFSET -50
@@ -416,14 +417,98 @@
 
 - (void)setAllFriends:(NSArray *)allFriends
 {
-  if (allFriends == nil)
-  {
-    AllFriendsList = [NSArray array];
-  }
-  else
-  {
-    AllFriendsList = allFriends;
-  }
+    if ([PFUser currentUser][@"friends"] == nil)
+    {
+
+
+        NSLog(@"did i get here?"); // IMPORTANT
+        NSMutableArray *fullName = [[NSMutableArray alloc]init];
+        NSMutableArray *phoneNumber = [[NSMutableArray alloc]init];
+       // NSMutableArray *contacts = [[NSMutableArray alloc]init];
+        
+        if([CNContactStore class])
+        {
+            //iOS 9 or later
+            NSError* contactError;
+            CNContactStore* addressBook = [[CNContactStore alloc]init];
+            [addressBook containersMatchingPredicate:[CNContainer predicateForContainersWithIdentifiers: @[addressBook.defaultContainerIdentifier]] error:&contactError];
+            NSArray * keysToFetch =@[CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactFamilyNameKey, CNContactGivenNameKey, CNContactPostalAddressesKey];
+            CNContactFetchRequest * request = [[CNContactFetchRequest alloc]initWithKeysToFetch:keysToFetch];
+            [addressBook enumerateContactsWithFetchRequest:request error:&contactError usingBlock:^(CNContact * __nonnull contact, BOOL * __nonnull stop){
+               
+                NSString *name = [NSString stringWithFormat:@"%@ %@",contact.givenName,contact.familyName];
+                NSString *phone = [NSString string];
+                
+                for (CNLabeledValue *value in contact.phoneNumbers) {
+                    
+                    if ([value.label isEqualToString:@"_$!<Mobile>!$_"])
+                    {
+                        CNPhoneNumber *phoneNum = value.value;
+                        phone = phoneNum.stringValue;
+                    }
+                    
+                    if ([phone isEqualToString:@""])
+                    {
+                        if ([value.label isEqualToString:@"_$!<Home>!$_"])
+                        {
+                            CNPhoneNumber *phoneNum = value.value;
+                            phone = phoneNum.stringValue;
+                        }
+                    }
+                    if ([phone isEqualToString:@""])
+                    {
+                        if ([value.label isEqualToString:@"_$!<Work>!$_"])
+                        {
+                            CNPhoneNumber *phoneNum = value.value;
+                            phone = phoneNum.stringValue;
+                        }
+                    }
+                    
+                }
+                [fullName addObject:name];
+                [phoneNumber addObject:[self formatNumber:phone]];
+                
+            }];
+        }
+        for(int i = 0; i < fullName.count; i++){
+           
+            if ([fullName[i] isEqualToString:@""])
+            {NSLog(@"name is empty");}
+            PFObject *person = [PFObject objectWithClassName:@"People"];
+            person[@"fullName"] = fullName[i];
+            person[@"phoneNumber"] = phoneNumber[i];
+            PFQuery *query = [PFUser query];
+            [query whereKey:@"phoneNumber" containsString:person[@"phoneNumber"]];
+            [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                if (!object) {
+                    NSLog(@"The getFirstObject request failed.");
+                } else {
+                    // The find succeeded.
+                    NSLog(@"Successfully retrieved the object.");
+                    
+                    NSLog(@"User ObjectId: %@",object.objectId );
+                    [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];
+                    [[PFUser currentUser] saveInBackground];
+                    PFQuery *pushQuery = [PFInstallation query];
+                    [pushQuery whereKey:@"user" equalTo:object];
+                    
+                    // Send push notification to query
+                    [PFPush sendPushMessageToQueryInBackground:pushQuery
+                                                   withMessage:@"One of your friend has joined!"];
+
+                }
+            }];
+
+        }
+       
+    }
+
+    else
+    {
+        AllFriendsList = allFriends;
+    }
+    
+
   [self ReloadTableData];
 }
 //__________________________________________________________________________________________________
@@ -470,5 +555,28 @@
   ParseRefreshActive = NO;
 }
 //__________________________________________________________________________________________________
+-(NSString*)formatNumber:(NSString*)mobileNumber
+{
+    
+    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"(" withString:@""];
+    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@")" withString:@""];
+    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
+    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
+    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"\u00a0" withString:@""];
+    
+    
+    
+    
+    NSInteger length = [mobileNumber length];
+    if(length > 10)
+    {
+        mobileNumber = [mobileNumber substringFromIndex: length-10];
+        
+    }
+    
+    
+    return mobileNumber;
+}
 
 @end
