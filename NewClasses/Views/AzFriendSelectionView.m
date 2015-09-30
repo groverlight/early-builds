@@ -168,8 +168,9 @@
   }
   else
   {
+      NSLog(@"INITIATING SORT");
     self.recentFriends  = @[];
-    self.allFriends     = GetNameSortedFriendRecords();
+    self.allFriends     = GetNameSortedFriendRecords(); // CHANGED THIS
 #if 0
     for (FriendRecord* record in self.allFriends)
     {

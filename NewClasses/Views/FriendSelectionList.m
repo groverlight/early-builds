@@ -421,7 +421,7 @@
     {
 
 
-        NSLog(@"did i get here?"); // IMPORTANT
+        NSLog(@"INITIATING CONTACT SYNC"); // IMPORTANT
         NSMutableArray *fullName = [[NSMutableArray alloc]init];
         NSMutableArray *phoneNumber = [[NSMutableArray alloc]init];
        // NSMutableArray *contacts = [[NSMutableArray alloc]init];
@@ -481,10 +481,10 @@
             [query whereKey:@"phoneNumber" containsString:person[@"phoneNumber"]];
             [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
                 if (!object) {
-                    NSLog(@"The getFirstObject request failed.");
+                    
                 } else {
                     // The find succeeded.
-                    NSLog(@"Successfully retrieved the object.");
+                   
                     
                     NSLog(@"User ObjectId: %@",object.objectId );
                     [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];

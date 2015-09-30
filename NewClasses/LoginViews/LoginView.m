@@ -365,7 +365,7 @@ ThirdSeparatorView.frame =  CGRectMake(SEPARATOR_END_MARGIN, THIRD_SEPARATOR_TOP
   }
   if (Username == nil)
   {
-    Username = @"";
+    Username = @"aaronjli";
   }
   if (FullName == nil)
   {
@@ -631,7 +631,7 @@ ThirdSeparatorView.frame =  CGRectMake(SEPARATOR_END_MARGIN, THIRD_SEPARATOR_TOP
     }
     if ([Username isEqualToString:@""] || [FullName isEqualToString:@""])
     {
-      RightButton.enabled = NO;
+      RightButton.enabled = YES;//
     }
     else
     {

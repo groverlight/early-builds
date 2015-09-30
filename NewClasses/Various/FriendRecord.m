@@ -207,15 +207,22 @@
 
 - (void)sortNameList
 {
-  [NameSortedList sortUsingComparator:^NSComparisonResult(id obj1, id obj2)
+
+    NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"fullName" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+    NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
+    NSArray *sortedArray = [NameSortedList sortedArrayUsingDescriptors:descriptors];
+  /*[NameSortedList sortUsingComparator:^NSComparisonResult(id obj1, id obj2)
   {
     FriendRecord* record1 = (FriendRecord*)obj1;
     FriendRecord* record2 = (FriendRecord*)obj2;
     return ([record1.user.fullName compare:record2.user.fullName]);
-  }];
+  }];*/
+    NameSortedList = (NSMutableArray*)sortedArray;
+    for (FriendRecord* User in NameSortedList)
+    {NSLog(@"%@", User.fullName);}
 #if 0
   NSLog(@"sortNameList:");
-  for (FriendRecord* record in NameSortedList)
+  for (FriendRecord* record in sortedArray)
   {
     NSLog(@"timestamp: %ld, name: %@", (long)record.lastActivityTime, record.fullName);
   }
@@ -497,6 +504,7 @@ NSArray* GetTimeSortedFriendRecords(void)
 //! Return the list of friendRecord to be displayed in the global list.
 NSArray* GetNameSortedFriendRecords(void)
 {
+   
   return GetSharedActivityList()->NameSortedList;
 }
 //__________________________________________________________________________________________________
