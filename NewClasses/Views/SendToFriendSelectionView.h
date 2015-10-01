@@ -12,6 +12,8 @@
 //! UIView based class that show a list of friends and some other objects.
 @interface SendToFriendSelectionView : FriendSelectionView
 {
+    @public
+    FriendSelectionList*  FriendsList2;
 }
 //____________________
 

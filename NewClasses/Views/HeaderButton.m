@@ -11,10 +11,12 @@
 #import "StillImageCapture.h"
 #import "Tools.h"
 #import "TopBarView.h"
+
 //__________________________________________________________________________________________________
 
 @interface DotView : PopParametricAnimationView
 {
+   
 }
 //____________________
 
@@ -22,6 +24,7 @@
 @property UIColor*  color;
 
 - (void)bounceDot;
+
 //____________________
 
 @end
@@ -373,6 +376,7 @@
 - (void)animateToState:(PopViewState)state
 {
   NSLog(@"1 %p HeaderButton animateToState: %d, CurrentButtonState: %d", self, state, CurrentButtonState);
+
   if ((state != CurrentButtonState) && (!IsSpringAnimation || !((state == E_PopViewState_Selected) && (CurrentButtonState == E_PopViewState_Highlighted))))
   {
     [self stopAnimation];

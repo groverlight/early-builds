@@ -177,7 +177,12 @@
   }
   else
   {
-    [TimeSortedList sortUsingComparator:^NSComparisonResult(id obj1, id obj2)
+      
+      NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"lastActivityTime" ascending:YES];
+      NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
+      NSArray *sortedArray = [NameSortedList sortedArrayUsingDescriptors:descriptors];
+      TimeSortedList = (NSMutableArray*) sortedArray;
+   /* [TimeSortedList sortUsingComparator:^NSComparisonResult(id obj1, id obj2)
     {
       FriendRecord* record1 = (FriendRecord*)obj1;
       FriendRecord* record2 = (FriendRecord*)obj2;
@@ -193,7 +198,7 @@
       {
         return NSOrderedSame;
       }
-    }];
+    }];*/
   }
 #if 0
   NSLog(@"sortTimeList:");

@@ -40,7 +40,8 @@
   RollDownView*         RollDownErrorView;      //!< The roll down error message view.
 }
 //____________________
-
+-(void)viewDidAppear
+{NSLog(@"hi");}
 //! Initialize the object however it has been created.
 -(void)Initialize
 {
@@ -153,6 +154,7 @@
 
 - (void)layoutSubviews
 {
+    
   [super layoutSubviews];
   RollDownErrorView.frame = CGRectMake(0, -self.topOffset, self.frame.size.width, [RollDownErrorView sizeThatFits:self.frame.size].height);
 }

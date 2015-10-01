@@ -109,6 +109,7 @@ static NavigationView* Myself;
   };
   ScrolledToFriendsPage = ^
   { // Default action: do nothing!
+      
   };
   PleaseBlurByThisFactorAction = ^(CGFloat blurFactor)
   { // Default action: do nothing!
@@ -167,7 +168,9 @@ static NavigationView* Myself;
       break;
     case 2:
       {
-//        NSLog(@"Activity: %p, typing: %p, AZ: %p, Send: %p", myself->ActivityListView, myself->TypingMessageView, myself->AzFriendsListView, myself->SendToListView);
+          
+          myself.top = myself->RightVerticalOffset;
+       /*   NSLog(@"Activity: %p, typing: %p, AZ: %p, Send: %p", myself->ActivityListView, myself->TypingMessageView, myself->AzFriendsListView, myself->SendToListView);*/
         [UIView animateWithDuration:0.2 animations:^
         {
           myself.top = myself->RightVerticalOffset;

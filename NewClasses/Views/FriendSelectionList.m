@@ -36,10 +36,10 @@
 //____________________
 
 //! Initialize the object however it has been created.
+
 -(void)Initialize
 {
   [super Initialize];
-
   GlobalParameters* parameters  = GetGlobalParameters();
   self.separatorColor           = Transparent;
   self.backgroundColor          = parameters.friendsListBackgroundColor;
@@ -76,6 +76,7 @@
   };
   ProgressCompleted = ^(CGPoint point, NSInteger row)
   { // Default action: do nothing!
+      
   };
 }
 //__________________________________________________________________________________________________
@@ -93,13 +94,16 @@
 
 - (void)layout
 {
+    
 }
 //__________________________________________________________________________________________________
 
 - (void)layoutSubviews
 {
+    
   [super  layoutSubviews];
   [self   layout];
+   
 }
 //__________________________________________________________________________________________________
 
@@ -112,6 +116,7 @@
 
 - (void)tableView:(UITableView*)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
+   
   UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
 
   GlobalParameters* parameters          = GetGlobalParameters();
@@ -552,8 +557,10 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-  ParseRefreshActive = NO;
+      ParseRefreshActive = NO;
 }
+
+
 //__________________________________________________________________________________________________
 -(NSString*)formatNumber:(NSString*)mobileNumber
 {
@@ -578,5 +585,6 @@
     
     return mobileNumber;
 }
-
+-(void)moveScrollUp:(UIScrollView *)scrollView
+{[self setContentOffset:CGPointZero animated:YES];}
 @end

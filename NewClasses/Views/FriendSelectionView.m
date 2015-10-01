@@ -86,7 +86,8 @@
   NSInteger             SelectedFriend;
 }
 //____________________
-
+- (void) viewDidLoad
+{NSLog(@"hi");}
 - (void)reset
 {
   [self updateUI];
@@ -469,6 +470,8 @@
 
 - (void)activate
 {
+  NSLog(@"%@", NSStringFromCGPoint(FriendsList.contentOffset));
+  FriendsList.contentOffset = CGPointMake(0, 0- FriendsList.contentInset.top);
   if (EditorIsOnTop)
   {
     [Editor becomeFirstResponder];

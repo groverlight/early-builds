@@ -25,6 +25,7 @@
   BOOL                UseDotsVsState;
   BOOL                SimulateButton;
   BOOL                IgnoreUnreadMessages;
+    
 }
 //____________________
 
@@ -34,6 +35,8 @@
 //____________________
 
 - (void)clearSelection;
+
+
 //____________________
 
 @end
