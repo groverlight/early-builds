@@ -188,7 +188,10 @@
 
 - (void)updateCellSelection:(TableViewCell*)cell
 {
+ 
   NSIndexPath* indexPath = [self indexPathForCell:cell];
+    NSLog(@"%@",indexPath);
+    NSLog(@"%@", SelectedItem);
   GlobalParameters* parameters = GetGlobalParameters();
   if ((SelectedItem != nil) && (![SelectedItem isEqual:indexPath]))
   {
@@ -201,9 +204,14 @@
     }];
   }
   SelectedItem        = indexPath;
-  PopLabel* fullName  = [cell getCellItemAtIndex:0];
+  TableViewCell* newCell   = (TableViewCell*)[self cellForRowAtIndexPath:SelectedItem];
+  PopLabel* fullName  = [newCell getCellItemAtIndex:0];
+  FriendListItemStateView*  stateView = [newCell getCellItemAtIndex:1];
   fullName.font       = parameters.friendsUsernameMediumFont;
   fullName.textColor = parameters.friendsSelectedUsernameTextColor;
+    [stateView animateToState:E_FriendProgressState_Selected completion:^
+     {
+     }];
 }
 //__________________________________________________________________________________________________
 
@@ -257,11 +265,16 @@
           }
           else
           {
-//            NSLog(@"MainContentViewTapped");
+            NSLog(@"MainContentViewTapped");
+            
+             /* fullName.font       = parameters.friendsUsernameMediumFont;
+              fullName.textColor = parameters.friendsSelectedUsernameTextColor;
+              [pseudoButton animateToState:E_FriendProgressState_Selected completion:^
+               {
+               }];*/
+
             [self updateCellSelection:mycell];
-            [pseudoButton animateToState:E_FriendProgressState_Selected completion:^
-            {
-            }];
+
           }
           NSInteger index = cell.tableSection * [self tableView:self numberOfRowsInSection:0] + cell.tableRow;
           TouchTapped(index);
@@ -275,13 +288,14 @@
     {
       Completed = NO;
       TouchActive = YES;
-//      NSLog(@"MainContentViewPanTouchAction");
+  //    NSLog(@"MainContentViewPanTouchAction");
       [pseudoButton animateToState:E_FriendProgressState_InProgress completion:^
       {
       }];
       if (!SimulateButton)
       {
-        [self updateCellSelection:mycell];
+          NSLog(@"hi");
+       // [self updateCellSelection:mycell];
       }
       NSInteger index = cell.tableSection * [self tableView:self numberOfRowsInSection:0] + cell.tableRow;
       TouchStarted([self calculatePoint:pseudoButton.center fromIndexPath:indexPath], index);
@@ -318,11 +332,12 @@
       else
       {
 //        NSLog(@"MainContentViewPanEndAction");
+        
         if (Completed)
         {
           NSLog(@"MainContentViewPanEndAction after progress completion");
           NSInteger index = cell.tableSection * [self tableView:self numberOfRowsInSection:0] + cell.tableRow;
-          TouchEnded([self calculatePoint:pseudoButton.center fromIndexPath:indexPath], index);
+         TouchEnded([self calculatePoint:pseudoButton.center fromIndexPath:indexPath], index);
         }
         else
         {
@@ -330,8 +345,11 @@
           [pseudoButton cancelAnimation];
           NSInteger index = cell.tableSection * [self tableView:self numberOfRowsInSection:0] + cell.tableRow;
           ProgressCancelled([self calculatePoint:pseudoButton.center fromIndexPath:indexPath], index);
+
+          
         }
-        [pseudoButton animateToState:E_FriendProgressState_Selected completion:^
+        
+        [pseudoButton animateToState:E_FriendProgressState_Unselected completion:^
         {
         }];
       }
@@ -342,7 +360,8 @@
 
 - (void)InitCell:(TableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath
 {
-//  NSLog(@"%p InitCell atIndexPath: [%d, %d], %d, %d", self, (int)indexPath.section, (int)indexPath.row, (int)RecentFriendsList.count, (int)AllFriendsList.count);
+    NSLog(@"initializing cell at %@", indexPath);
+  /*NSLog(@"%p InitCell atIndexPath: [%d, %d], %d, %d", self, (int)indexPath.section, (int)indexPath.row, (int)RecentFriendsList.count, (int)AllFriendsList.count);*/
   FriendRecord*             record        = [((cell.tableSection == 0)? RecentFriendsList: AllFriendsList) objectAtIndex:cell.tableRow];
   PopLabel*                 fullName      = [cell getCellItemAtIndex:0];
   FriendListItemStateView*  pseudoButton  = [cell getCellItemAtIndex:1];
@@ -352,17 +371,10 @@
     record.fullName = @"<unassigned 3>";
   }
   fullName.text       = record.fullName;
-  BOOL isSelectedItem = ((SelectedItem != nil) && [SelectedItem isEqual:indexPath]);
-  if ((!IgnoreUnreadMessages && (record.numUnreadMessages > 0)) || (IgnoreUnreadMessages && isSelectedItem))
-  {
-    [pseudoButton setState:E_FriendProgressState_Selected animated:NO];
-    fullName.font = GetGlobalParameters().friendsUsernameMediumFont;
-  }
-  else
-  {
-    [pseudoButton setState:E_FriendProgressState_Unselected animated:NO];
-    fullName.font = GetGlobalParameters().friendsUsernameFont;
-  }
+
+     [pseudoButton setState:E_FriendProgressState_Unselected animated:YES];
+      fullName.font = GetGlobalParameters().friendsUsernameFont;
+
 }
 //__________________________________________________________________________________________________
 
@@ -387,6 +399,8 @@
   botSeparatorLine.bottom = cell.height;
   botSeparatorLine.left   = 0;
   pseudoButton.centerY       = cell.height / 2;
+  [pseudoButton setState:E_FriendProgressState_Unselected animated:NO];
+
   if (StateViewOnRight)
   {
     pseudoButton.right = cell.width - parameters.friendsStateViewRightMargin;
@@ -585,6 +599,4 @@
     
     return mobileNumber;
 }
--(void)moveScrollUp:(UIScrollView *)scrollView
-{[self setContentOffset:CGPointZero animated:YES];}
 @end

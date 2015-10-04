@@ -86,8 +86,7 @@
   NSInteger             SelectedFriend;
 }
 //____________________
-- (void) viewDidLoad
-{NSLog(@"hi");}
+
 - (void)reset
 {
   [self updateUI];

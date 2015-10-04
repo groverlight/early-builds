@@ -395,6 +395,7 @@ static NavigationView* Myself;
         myself->ScrollView.scrollView.scrollEnabled = YES;
       }
       NSLog(@"SendToListView->TouchEnded enable scroll: %d", myself->ScrollView.scrollView.scrollEnabled);
+     
       [myself hidePlayer];
       [myself->Player stopPlayer];
     }
@@ -405,6 +406,7 @@ static NavigationView* Myself;
     get_myself;
     myself->ScrollView.scrollView.scrollEnabled = YES;
     NSLog(@"SendToListView->ProgressCancelled enable scroll: %d", myself->ScrollView.scrollView.scrollEnabled);
+    
   };
 
   SendToListView->ProgressCompleted = ^(CGPoint point, NSInteger tableIndex)

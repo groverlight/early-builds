@@ -365,7 +365,7 @@ ThirdSeparatorView.frame =  CGRectMake(SEPARATOR_END_MARGIN, THIRD_SEPARATOR_TOP
   }
   if (Username == nil)
   {
-    Username = @"aaronjli";
+    Username = @"";
   }
   if (FullName == nil)
   {
@@ -621,17 +621,28 @@ ThirdSeparatorView.frame =  CGRectMake(SEPARATOR_END_MARGIN, THIRD_SEPARATOR_TOP
   case E_LoginState_Username:
     if (textField == LowerEditor)
     {
+      NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "] invertedSet];
+        NSString *text = [[LowerEditor.text componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+      LowerEditor.text = text;
+
       FullName  = LowerEditor.text;
       [defaults setObject:FullName forKey:LOGIN_FULL_NAME_DEFAULTS_KEY];
     }
     else if (textField == UpperEditor)
     {
+     [LowerEditor resignFirstResponder];
+      // take away upppercase and spaces
+     
+      NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyz"] invertedSet];
+     NSString *text = [[UpperEditor.text componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+ 
+     UpperEditor.text = text;
       Username = UpperEditor.text;
       [defaults setObject:Username forKey:LOGIN_USER_NAME_DEFAULTS_KEY];
     }
-    if ([Username isEqualToString:@""] || [FullName isEqualToString:@""])
+          if ([Username isEqualToString:@""] || ![FullName containsString:@" "])
     {
-      RightButton.enabled = YES;//
+      RightButton.enabled = NO;//
     }
     else
     {

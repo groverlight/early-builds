@@ -25,7 +25,7 @@
   self.showSectionHeaders       = YES;
   self.useBlankState            = NO;
   self.ignoreUnreadMessages     = YES;
-
+  
   self.maxNumRecentFriends      = GetGlobalParameters().friendsMaxRecentFriends;
   
 }
