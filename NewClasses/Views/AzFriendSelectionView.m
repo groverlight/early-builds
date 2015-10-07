@@ -170,7 +170,7 @@
   }
   else
   {
-      NSLog(@"INITIATING SORT");
+    //  NSLog(@"INITIATING SORT");
     self.recentFriends  = @[];
     self.allFriends     = GetNameSortedFriendRecords(); // CHANGED THIS
 #if 0
@@ -296,6 +296,7 @@
 // Action when the edited text is changing.
 -(void)editedStringChanged:(NSString*)editedString
 {
+    NSLog(@"did change");
   if (GetGlobalParameters().addFriendAutoSearch)
   {
     if ([editedString isEqualToString:@""])
@@ -319,6 +320,7 @@
                    return [friend.user.objectId isEqualToString:user.objectId];
                  }] != NSNotFound))
             {
+                NSLog(@"found him");
               FriendRecord* record    = [FriendRecord new];
               record.user             = user;
               record.objectId         = user.objectId;
@@ -373,6 +375,7 @@
     {
       if (friendSuccess)
       {
+          NSLog(@"REMOVED");
         ParseSendSilentPushNotificationToUser(friend.objectId);
       }
       RefreshAllFriends(^

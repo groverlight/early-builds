@@ -589,6 +589,8 @@ ThirdSeparatorView.frame =  CGRectMake(SEPARATOR_END_MARGIN, THIRD_SEPARATOR_TOP
 
 -(void)editorTextChanged:(UITextField *)textField
 {
+    NSString *FirstName;
+    NSString *LastName;
   NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
   switch (State)
   {
@@ -619,34 +621,46 @@ ThirdSeparatorView.frame =  CGRectMake(SEPARATOR_END_MARGIN, THIRD_SEPARATOR_TOP
     }
     break;
   case E_LoginState_Username:
+          
     if (textField == LowerEditor)
     {
-      NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "] invertedSet];
+        [UpperEditor resignFirstResponder];
+        [LowerEditor becomeFirstResponder];
+      NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "] invertedSet];
         NSString *text = [[LowerEditor.text componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
       LowerEditor.text = text;
 
       FullName  = LowerEditor.text;
-      [defaults setObject:FullName forKey:LOGIN_FULL_NAME_DEFAULTS_KEY];
+    
+        NSLog(@"FirstName: %@", FirstName);
+        NSLog(@"LastName: %@", LastName);
+            [defaults setObject:FullName forKey:LOGIN_FULL_NAME_DEFAULTS_KEY];
     }
     else if (textField == UpperEditor)
     {
      [LowerEditor resignFirstResponder];
+     [UpperEditor becomeFirstResponder];
       // take away upppercase and spaces
      
-      NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyz"] invertedSet];
-     NSString *text = [[UpperEditor.text componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+      NSCharacterSet *invalidCharSet2 = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyz1234567890"] invertedSet];
+     NSString *text2 = [[UpperEditor.text componentsSeparatedByCharactersInSet:invalidCharSet2] componentsJoinedByString:@""];
  
-     UpperEditor.text = text;
+      UpperEditor.text = text2;
       Username = UpperEditor.text;
       [defaults setObject:Username forKey:LOGIN_USER_NAME_DEFAULTS_KEY];
     }
-          if ([Username isEqualToString:@""] || ![FullName containsString:@" "])
+    if ([FullName containsString:@" "])
     {
-      RightButton.enabled = NO;//
+        NSLog(@"FirstName: %@ and LastName: %@",[FullName componentsSeparatedByString:@" "][0],[FullName componentsSeparatedByString:@" "][1]);
+        if (![Username isEqualToString:@""] && ([FullName componentsSeparatedByString:@" "][0].length > 1) && ([FullName componentsSeparatedByString:@" "][1].length > 1))
+        {
+         RightButton.enabled = YES;//
+        }
+    
     }
     else
     {
-      RightButton.enabled = YES;
+      RightButton.enabled = NO;
     }
     break;
   case E_LoginState_LoggedIn:

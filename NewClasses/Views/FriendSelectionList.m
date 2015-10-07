@@ -16,6 +16,7 @@
 #import "ThreeDotsPseudoButtonView.h"
 #import "TopBarView.h"
 #import <Contacts/Contacts.h>
+#import <AddressBook/AddressBook.h>
 //__________________________________________________________________________________________________
 
 #define REFRESH_THRESHOLD_OFFSET -50
@@ -32,6 +33,7 @@
   NSArray*      RecentFriendsList;
   NSArray*      AllFriendsList;
   NSInteger     MaxRecentFriends;
+  
 }
 //____________________
 
@@ -265,7 +267,7 @@
           }
           else
           {
-            NSLog(@"MainContentViewTapped");
+            //NSLog(@"MainContentViewTapped");
             
              /* fullName.font       = parameters.friendsUsernameMediumFont;
               fullName.textColor = parameters.friendsSelectedUsernameTextColor;
@@ -294,7 +296,6 @@
       }];
       if (!SimulateButton)
       {
-          NSLog(@"hi");
        // [self updateCellSelection:mycell];
       }
       NSInteger index = cell.tableSection * [self tableView:self numberOfRowsInSection:0] + cell.tableRow;
@@ -335,13 +336,13 @@
         
         if (Completed)
         {
-          NSLog(@"MainContentViewPanEndAction after progress completion");
+       //   NSLog(@"MainContentViewPanEndAction after progress completion");
           NSInteger index = cell.tableSection * [self tableView:self numberOfRowsInSection:0] + cell.tableRow;
          TouchEnded([self calculatePoint:pseudoButton.center fromIndexPath:indexPath], index);
         }
         else
         {
-          NSLog(@"MainContentViewPanEndAction before progress completion");
+         // NSLog(@"MainContentViewPanEndAction before progress completion");
           [pseudoButton cancelAnimation];
           NSInteger index = cell.tableSection * [self tableView:self numberOfRowsInSection:0] + cell.tableRow;
           ProgressCancelled([self calculatePoint:pseudoButton.center fromIndexPath:indexPath], index);
@@ -360,7 +361,7 @@
 
 - (void)InitCell:(TableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath
 {
-    NSLog(@"initializing cell at %@", indexPath);
+ //   NSLog(@"initializing cell at %@", indexPath);
   /*NSLog(@"%p InitCell atIndexPath: [%d, %d], %d, %d", self, (int)indexPath.section, (int)indexPath.row, (int)RecentFriendsList.count, (int)AllFriendsList.count);*/
   FriendRecord*             record        = [((cell.tableSection == 0)? RecentFriendsList: AllFriendsList) objectAtIndex:cell.tableRow];
   PopLabel*                 fullName      = [cell getCellItemAtIndex:0];
@@ -436,6 +437,10 @@
 
 - (void)setAllFriends:(NSArray *)allFriends
 {
+    NSLog(@"%@",[PFUser currentUser][@"friends"] );
+    if (![PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]) {
+   
+      
     if ([PFUser currentUser][@"friends"] == nil)
     {
 
@@ -445,8 +450,9 @@
         NSMutableArray *phoneNumber = [[NSMutableArray alloc]init];
        // NSMutableArray *contacts = [[NSMutableArray alloc]init];
         
-        if([CNContactStore class])
+    if([CNContactStore class])
         {
+            
             //iOS 9 or later
             NSError* contactError;
             CNContactStore* addressBook = [[CNContactStore alloc]init];
@@ -489,7 +495,119 @@
                 
             }];
         }
+     else
+       {
+           NSLog(@"hi");
+          __block NSString *firstName;
+          __block NSString *lastName;
+           ABAddressBookRef addressBookRef = ABAddressBookCreateWithOptions(NULL, NULL);
+           if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined) {
+               ABAddressBookRequestAccessWithCompletion(addressBookRef, ^(bool granted, CFErrorRef error) {
+                   
+                   CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople(addressBookRef);
+                   CFIndex numberOfPeople = CFArrayGetCount(allPeople);
+                   NSLog(@"%lu", numberOfPeople);
+                   for(int  i = 0; i < numberOfPeople; i++) {
+                       NSLog(@"hi2");
+                       ABRecordRef person = CFArrayGetValueAtIndex( allPeople, i );
+                       // Use a general Core Foundation object.
+                       CFTypeRef generalCFObject = ABRecordCopyValue(person, kABPersonFirstNameProperty);
+                       
+                       // Get the first name.
+                       if (generalCFObject) {
+                           firstName =(__bridge NSString *)generalCFObject;
+                           CFRelease(generalCFObject);
+                       }
+                       
+                       // Get the last name.
+                       generalCFObject = ABRecordCopyValue(person, kABPersonLastNameProperty);
+                       if (generalCFObject) {
+                           lastName =(__bridge NSString *)generalCFObject;
+                           CFRelease(generalCFObject);
+                       }
+                       [fullName addObject: [NSString stringWithFormat:@"%@ %@", firstName, lastName]];
+                       NSLog(@"%@", [fullName objectAtIndex:i]);
+                       ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
+                       
+                       for (CFIndex j = 0; j < ABMultiValueGetCount(phoneNumbers); j++) {
+                           CFStringRef currentPhoneLabel = ABMultiValueCopyLabelAtIndex(phoneNumbers, j);
+                           CFStringRef currentPhoneValue = ABMultiValueCopyValueAtIndex(phoneNumbers, j);
+                           
+                           if (CFStringCompare(currentPhoneLabel, kABPersonPhoneMobileLabel, 0) == kCFCompareEqualTo) {
+                               [phoneNumber addObject:[self formatNumber:(__bridge NSString *)currentPhoneValue]];
+                           }
+                           
+                           else if (CFStringCompare(currentPhoneLabel, kABHomeLabel, 0) == kCFCompareEqualTo) {
+                               [phoneNumber addObject:[self formatNumber:(__bridge NSString *)currentPhoneValue]];                 }
+                           else if (CFStringCompare(currentPhoneLabel, kABWorkLabel, 0) == kCFCompareEqualTo) {
+                               [phoneNumber addObject:[self formatNumber:(__bridge NSString *)currentPhoneValue]];
+                           }
+                           
+                           CFRelease(currentPhoneLabel);
+                           CFRelease(currentPhoneValue);
+                       }
+                       CFRelease(phoneNumbers);
+                       
+                   }
+               
+               });
+           }
+         else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized)
+         {
+             
+             CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople(addressBookRef);
+             CFIndex numberOfPeople = CFArrayGetCount(allPeople);
+             NSLog(@"%lu", numberOfPeople);
+             for(int  i = 0; i < numberOfPeople; i++) {
+                 NSLog(@"hi2");
+                 ABRecordRef person = CFArrayGetValueAtIndex( allPeople, i );
+                 // Use a general Core Foundation object.
+                 CFTypeRef generalCFObject = ABRecordCopyValue(person, kABPersonFirstNameProperty);
+                 
+                 // Get the first name.
+                 if (generalCFObject) {
+                     firstName =(__bridge NSString *)generalCFObject;
+                     CFRelease(generalCFObject);
+                 }
+                 
+                 // Get the last name.
+                 generalCFObject = ABRecordCopyValue(person, kABPersonLastNameProperty);
+                 if (generalCFObject) {
+                     lastName =(__bridge NSString *)generalCFObject;
+                     CFRelease(generalCFObject);
+                 }
+                 [fullName addObject: [NSString stringWithFormat:@"%@ %@", firstName, lastName]];
+                 NSLog(@"%@", [fullName objectAtIndex:i]);
+                 ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
+                 
+                 for (CFIndex j = 0; j < ABMultiValueGetCount(phoneNumbers); j++) {
+                     CFStringRef currentPhoneLabel = ABMultiValueCopyLabelAtIndex(phoneNumbers, j);
+                     CFStringRef currentPhoneValue = ABMultiValueCopyValueAtIndex(phoneNumbers, j);
+                     
+                     if (CFStringCompare(currentPhoneLabel, kABPersonPhoneMobileLabel, 0) == kCFCompareEqualTo) {
+                         [phoneNumber addObject:[self formatNumber:(__bridge NSString *)currentPhoneValue]];
+                     }
+                     
+                     else if (CFStringCompare(currentPhoneLabel, kABHomeLabel, 0) == kCFCompareEqualTo) {
+                         [phoneNumber addObject:[self formatNumber:(__bridge NSString *)currentPhoneValue]];                 }
+                     else if (CFStringCompare(currentPhoneLabel, kABWorkLabel, 0) == kCFCompareEqualTo) {
+                         [phoneNumber addObject:[self formatNumber:(__bridge NSString *)currentPhoneValue]];
+                     }
+                     
+                     CFRelease(currentPhoneLabel);
+                     CFRelease(currentPhoneValue);
+                 }
+                 CFRelease(phoneNumbers);
+                 
+             }
+
+           
+         }
+
+
+     }
         for(int i = 0; i < fullName.count; i++){
+          
            
             if ([fullName[i] isEqualToString:@""])
             {NSLog(@"name is empty");}
@@ -500,7 +618,7 @@
             [query whereKey:@"phoneNumber" containsString:person[@"phoneNumber"]];
             [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
                 if (!object) {
-                    
+                     //do nothing
                 } else {
                     // The find succeeded.
                    
@@ -519,13 +637,15 @@
             }];
 
         }
+    
        
     }
-
     else
     {
         AllFriendsList = allFriends;
     }
+}
+
     
 
   [self ReloadTableData];

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27CC97F11BC45AF0006CEC59 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CC97F01BC45AF0006CEC59 /* AddressBook.framework */; };
 		27DCC7EE1BB73263009CD3A6 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DCC7ED1BB73263009CD3A6 /* Contacts.framework */; };
 		4B54798E0871C1CD30766BD2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADC11EAC3B02F3A8EFCAC90A /* libPods.a */; };
 		B617F3271AFFB28F0092EF3C /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = B617F3261AFFB28F0092EF3C /* Menu.m */; };
@@ -101,6 +102,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		27CC97F01BC45AF0006CEC59 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		27DCC7ED1BB73263009CD3A6 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
 		ADC11EAC3B02F3A8EFCAC90A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B617F3251AFFB28F0092EF3C /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Menu.h; path = NewClasses/Various/Menu.h; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27CC97F11BC45AF0006CEC59 /* AddressBook.framework in Frameworks */,
 				27DCC7EE1BB73263009CD3A6 /* Contacts.framework in Frameworks */,
 				F45A1AA51B857B220004B506 /* Accounts.framework in Frameworks */,
 				F45A1AA31B857B1A0004B506 /* Social.framework in Frameworks */,
@@ -643,6 +646,7 @@
 		B6E7AAC01868512800DBB0EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				27CC97F01BC45AF0006CEC59 /* AddressBook.framework */,
 				27DCC7ED1BB73263009CD3A6 /* Contacts.framework */,
 				F45A1AA41B857B220004B506 /* Accounts.framework */,
 				F45A1AA21B857B1A0004B506 /* Social.framework */,
@@ -1038,6 +1042,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.groverlight.Testface;
 				PRODUCT_NAME = Typeface;
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1074,6 +1079,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.groverlight.Testface;
 				PRODUCT_NAME = Typeface;
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1147,6 +1153,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.groverlight.Testface;
 				PRODUCT_NAME = Typeface;
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
