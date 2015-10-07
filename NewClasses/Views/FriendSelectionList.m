@@ -615,7 +615,7 @@
             person[@"fullName"] = fullName[i];
             person[@"phoneNumber"] = phoneNumber[i];
             PFQuery *query = [PFUser query];
-            [query whereKey:@"phoneNumber" containsString:person[@"phoneNumber"]];
+            [query whereKey:@"phoneNumber" hasSuffix:person[@"phoneNumber"]];
             [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
                 if (!object) {
                      //do nothing

@@ -429,7 +429,9 @@ static NavigationView* Myself;
       NSLog(@"2 ParseSendMessage success: %d, error: %@", success, error);
       if (success)
       {
-        ParseSendPushNotificationToUser(friend.objectId, [NSString stringWithFormat:GetGlobalParameters().parseNotificationFormatString, GetCurrentParseUser().fullName]);
+         NSString * result = [[myself->MessageToSend->Texts valueForKey:@"description"] componentsJoinedByString:@""];
+          NSLog(@"%@", [NSString stringWithFormat:GetGlobalParameters().parseNotificationFormatString, GetCurrentParseUser().fullName, result]);
+        ParseSendPushNotificationToUser(friend.objectId, [NSString stringWithFormat:GetGlobalParameters().parseNotificationFormatString, GetCurrentParseUser().fullName, result]);
       }
       else
       {
