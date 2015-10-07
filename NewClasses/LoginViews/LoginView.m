@@ -939,7 +939,9 @@ typedef enum
                                         user.username     = Username;
                                         user.password     = FullPhoneNumber;
                                         user.fullName     = FullName;
-                                        user.phoneNumber  = FullPhoneNumber;
+                                        user.phoneNumber  = PhoneNumber;
+                                        [user setObject:SelectedCountryPrefix forKey:@"CountryPrefix"];
+                                        NSLog(@"%@",SelectedCountryPrefix);
                                         [user saveInBackgroundWithBlock:^(BOOL success, NSError* save_error)
                                          {
                                              if (success)

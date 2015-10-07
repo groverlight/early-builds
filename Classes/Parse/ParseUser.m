@@ -31,6 +31,7 @@ NSMutableArray* GetSharedFriendsList(void)
 @dynamic phoneNumber;
 @dynamic lastActivityTimestamp;
 @dynamic friends;
+
 //____________________
 
 + (void)load

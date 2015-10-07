@@ -40,8 +40,7 @@
   RollDownView*         RollDownErrorView;      //!< The roll down error message view.
 }
 //____________________
--(void)viewDidAppear
-{NSLog(@"hi");}
+
 //! Initialize the object however it has been created.
 -(void)Initialize
 {
@@ -296,7 +295,7 @@
 // Action when the edited text is changing.
 -(void)editedStringChanged:(NSString*)editedString
 {
-    NSLog(@"did change");
+   
   if (GetGlobalParameters().addFriendAutoSearch)
   {
     if ([editedString isEqualToString:@""])
@@ -320,7 +319,7 @@
                    return [friend.user.objectId isEqualToString:user.objectId];
                  }] != NSNotFound))
             {
-                NSLog(@"found him");
+               
               FriendRecord* record    = [FriendRecord new];
               record.user             = user;
               record.objectId         = user.objectId;
