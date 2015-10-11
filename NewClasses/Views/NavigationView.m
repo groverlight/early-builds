@@ -664,21 +664,21 @@ static NavigationView* Myself;
 
 - (void)loadReceivedMessages:(BlockBoolAction)completion
 {
-  NSLog(@"-- loadReceivedMessages");
+ // NSLog(@"-- loadReceivedMessages");
   ParseLoadMessageArray(^
   {
-    NSLog(@"-0 loadReceivedMessages");
+   // NSLog(@"-0 loadReceivedMessages");
     ActivityListView.busy = YES;
   }, ^(BOOL changed, NSError* loadError)
   {
-    NSLog(@"00 loadReceivedMessages change: %d", changed);
+    //NSLog(@"00 loadReceivedMessages change: %d", changed);
     if (changed)
     {
       [self performSelectorInBackground:@selector(locallySaveMessageArrayInBackground) withObject:nil];
     }
-    NSLog(@"00.1 loadReceivedMessages change: %d", changed);
+    //NSLog(@"00.1 loadReceivedMessages change: %d", changed);
     UnreadMessages* messages = GetSharedUnreadMessages();
-    NSLog(@"00.2 loadReceivedMessages change: %d", changed);
+    //NSLog(@"00.2 loadReceivedMessages change: %d", changed);
     ParseLoadUsersForMessages(messages, ^
     {
       UnreadMessages* unreadMsgs = GetSharedUnreadMessages();
@@ -693,14 +693,14 @@ static NavigationView* Myself;
         {
           [self hideLeftItemDot];
         }
-        NSLog(@"01 loadReceivedMessages");
+     //   NSLog(@"01 loadReceivedMessages");
         UpdateFriendRecordListForMessages(unreadMsgs, ^(BOOL activityChanged)
         {
-          NSLog(@"02 loadReceivedMessages");
+       //   NSLog(@"02 loadReceivedMessages");
           RefreshAllFriends(^
           {
             [self updateFriendsLists];
-            NSLog(@"03 loadReceivedMessages");
+         //   NSLog(@"03 loadReceivedMessages");
             ActivityListView.busy = NO;
             completion(YES);
           });
@@ -708,7 +708,7 @@ static NavigationView* Myself;
       }
       else
       {
-        NSLog(@"Failed to load messages with error: %@", loadError);
+     //   NSLog(@"Failed to load messages with error: %@", loadError);
         ActivityListView.busy = NO;
         [self updateFriendsLists];
         completion(NO);

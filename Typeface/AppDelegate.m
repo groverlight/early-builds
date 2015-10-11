@@ -34,9 +34,9 @@ typedef void(^BlockBfrAction)(UIBackgroundFetchResult result);
     // Initialize the library with your
     // Mixpanel project token, MIXPANEL_TOKEN
 [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
-
-    
-
+ NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    NSString *objectid = [notificationPayload objectForKey:@"p"];
+    [[PFUser currentUser] addUniqueObject:objectid forKey:@"friends"];
   // Override point for customization after application launch.
   [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
 

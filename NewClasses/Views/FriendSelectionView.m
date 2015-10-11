@@ -471,6 +471,7 @@
 {
   NSLog(@"%@", NSStringFromCGPoint(FriendsList.contentOffset));
   FriendsList.contentOffset = CGPointMake(0, 0- FriendsList.contentInset.top);
+  [FriendsList contactsync];
   if (EditorIsOnTop)
   {
     [Editor becomeFirstResponder];

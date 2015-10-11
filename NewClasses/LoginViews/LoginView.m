@@ -782,7 +782,7 @@ typedef enum
                                       {
                                           if (success)
                                           { // The verification code has been validated.
-                                              ParseFindUserByPhoneNumber(FullPhoneNumber, ^(id obj, NSError* find_error)
+                                              ParseFindUserByPhoneNumber(PhoneNumber, ^(id obj, NSError* find_error)
                                                                          {
                                                                              RecoveredUser             = obj;
                                                                              NSUserDefaults* defaults  = [NSUserDefaults standardUserDefaults];

@@ -75,7 +75,6 @@ void ParseAppDelegateInitialization(NSDictionary* launchOptions)
 {
 //  NSLog(@"ParseAppDelegateInitialization");
   [Parse setApplicationId:PARSE_APPLICATION_ID clientKey:PARSE_CLIENT_KEY];
-
   // Parse Analytics initialization.
   [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
 
@@ -949,6 +948,8 @@ void ParseDidFailToRegisterForRemoteNotificationsWithError(NSError* error)
 void ParseDidReceiveRemoteNotification(NSDictionary* userInfo)
 {
   NSLog(@"ParseDidReceiveRemoteNotification");
+    NSLog(@"%@",userInfo);
+    NSLog(@"%@",[userInfo objectForKey:@"objectId"]);
   [PFPush handlePush:userInfo];
 }
 //__________________________________________________________________________________________________
