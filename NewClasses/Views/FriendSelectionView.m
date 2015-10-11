@@ -979,22 +979,21 @@
                         NSLog(@"User ObjectId: %@",object);
                         NSLog(@"%@", [PFUser currentUser]);
                         [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];
-                        [object addUniqueObject:[PFUser currentUser].objectId forKey:@"friends"];
-                        object[@"username"] = @"hi";
                         PFQuery *pushQuery = [PFInstallation query];
                         [pushQuery whereKey:@"user" equalTo:object];
                         NSString * Name = object[@"fullName"];
                         NSLog(@"%@", Name);
                         // Send push notification to query
                         NSDictionary *data = @{
-                                               @"alert" : @"JOne of your friends has joined!",
-                                               @"p" :[PFUser currentUser].objectId
+                                               @"p" :[PFUser currentUser].objectId,
+                                               @"badge":@"Increment"
                                                };
                         PFPush *push = [[PFPush alloc] init];
+                        [push setMessage:@"Your FRIEND has joined the app"];
                         [push setQuery:pushQuery];
                         [push setData:data];
                         [push sendPushInBackground];
-                        [object saveInBackground];
+                        
                     }
                     
                     [[PFUser currentUser] saveInBackground];

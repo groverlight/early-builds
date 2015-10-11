@@ -35,6 +35,7 @@ typedef void(^BlockBfrAction)(UIBackgroundFetchResult result);
     // Mixpanel project token, MIXPANEL_TOKEN
 [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
  NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    NSLog(@"notificationpayload: %@", notificationPayload);
     NSString *objectid = [notificationPayload objectForKey:@"p"];
     [[PFUser currentUser] addUniqueObject:objectid forKey:@"friends"];
     [[PFUser currentUser] saveInBackground];
@@ -114,6 +115,7 @@ typedef void(^BlockBfrAction)(UIBackgroundFetchResult result);
 
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler
 {
+
   NotificationCompletionHandler = handler;
   NSLog(@"\n\n");
   NSLog(@"didReceiveRemoteNotification Start: %p", NotificationCompletionHandler);
@@ -131,6 +133,7 @@ typedef void(^BlockBfrAction)(UIBackgroundFetchResult result);
 
 - (void)application:(UIApplication*)application handleActionWithIdentifier:(NSString*)identifier forRemoteNotification:(NSDictionary*)userInfo completionHandler:(void(^)())completionHandler;
 {
+    
   ParseHandleActionWithIdentifier(identifier, userInfo, ^
   {
     completionHandler();
