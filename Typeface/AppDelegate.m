@@ -37,6 +37,7 @@ typedef void(^BlockBfrAction)(UIBackgroundFetchResult result);
  NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
     NSString *objectid = [notificationPayload objectForKey:@"p"];
     [[PFUser currentUser] addUniqueObject:objectid forKey:@"friends"];
+    [[PFUser currentUser] saveInBackground];
   // Override point for customization after application launch.
   [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
 
