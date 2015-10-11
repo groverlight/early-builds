@@ -117,8 +117,12 @@ typedef void(^BlockBfrAction)(UIBackgroundFetchResult result);
 {
     NSLog(@"userInfo: %@", userInfo);
     NSString *objectid = [userInfo objectForKey:@"p"];
+    NSLog(@"%@", objectid);
+    if (objectid)
+    {
     [[PFUser currentUser] addUniqueObject:objectid forKey:@"friends"];
     [[PFUser currentUser] saveInBackground];
+    }
 
   NotificationCompletionHandler = handler;
   NSLog(@"\n\n");

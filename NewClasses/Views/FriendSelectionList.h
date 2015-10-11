@@ -35,8 +35,6 @@
 //____________________
 
 - (void)clearSelection;
-
--(void)contactsync;
 //____________________
 
 @end

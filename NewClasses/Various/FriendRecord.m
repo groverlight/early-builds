@@ -180,6 +180,7 @@
          {
              FriendRecord* record1 = (FriendRecord*)obj1;
              FriendRecord* record2 = (FriendRecord*)obj2;
+
              if (record1.lastActivityTime > record2.lastActivityTime)
              {
                  return NSOrderedAscending;
@@ -194,6 +195,7 @@
              }
          }];
     }
+
 #if 0
     NSLog(@"sortTimeList:");
     for (FriendRecord* record in TimeSortedList)
@@ -301,8 +303,8 @@
         }
         if (!found)
         {
-            //      NSLog(@"5 updateActivityForFriends: %@", record.fullName);
-            [NameSortedList removeObject:nameRecord];
+            NSLog(@"5 updateActivityForFriends: %@", nameRecord.fullName);
+           /* [NameSortedList removeObject:nameRecord];*/
             changed = YES;
         }
     }
@@ -323,8 +325,8 @@
         }
         if (!found)
         {
-            //      NSLog(@"5 updateActivityForFriends: %@", record.fullName);
-            [TimeSortedList removeObject:timeRecord];
+            NSLog(@"5 updateActivityForFriends: %@", timeRecord.fullName);
+            /*[TimeSortedList removeObject:timeRecord];*/
             changed = YES;
         }
     }
@@ -346,8 +348,10 @@
         }
         if (!found)
         {
+          
+            NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
             NSLog(@"9 updateActivityForFriends: %@", friend.fullName);
-            FriendRecord* friendRecord = [[FriendRecord alloc] initWithUser:friend andTime:0];
+            FriendRecord* friendRecord = [[FriendRecord alloc] initWithUser:friend andTime:time];
             [NameSortedList addObject:friendRecord];
             [TimeSortedList addObject:friendRecord];
             changed = YES;

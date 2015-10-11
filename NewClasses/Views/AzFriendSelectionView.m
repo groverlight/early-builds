@@ -170,7 +170,7 @@
   else
   {
     //  NSLog(@"INITIATING SORT");
-    self.recentFriends  = @[];
+    //self.recentFriends  = GetTimeSortedFriendRecords();
     self.allFriends     = GetNameSortedFriendRecords(); // CHANGED THIS
 #if 0
     for (FriendRecord* record in self.allFriends)

@@ -788,9 +788,6 @@
     NSLog(@"%@",[PFUser currentUser][@"friends"] );
     if (![PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]) {
         
-        
-        if ([PFUser currentUser][@"friends"] == nil)
-        {
             
             
             NSLog(@"INITIATING CONTACT SYNC"); // IMPORTANT
@@ -845,7 +842,7 @@
             }
             else
             {
-                NSLog(@"hi");
+              
                 __block NSString *firstName;
                 __block NSString *lastName;
                 ABAddressBookRef addressBookRef = ABAddressBookCreateWithOptions(NULL, NULL);
@@ -856,7 +853,7 @@
                         CFIndex numberOfPeople = CFArrayGetCount(allPeople);
                         NSLog(@"%lu", numberOfPeople);
                         for(int  i = 0; i < numberOfPeople; i++) {
-                            NSLog(@"hi2");
+                        
                             ABRecordRef person = CFArrayGetValueAtIndex( allPeople, i );
                             // Use a general Core Foundation object.
                             CFTypeRef generalCFObject = ABRecordCopyValue(person, kABPersonFirstNameProperty);
@@ -907,7 +904,7 @@
                     CFIndex numberOfPeople = CFArrayGetCount(allPeople);
                     NSLog(@"%lu", numberOfPeople);
                     for(int  i = 0; i < numberOfPeople; i++) {
-                        NSLog(@"hi2");
+                    
                         ABRecordRef person = CFArrayGetValueAtIndex( allPeople, i );
                         // Use a general Core Foundation object.
                         CFTypeRef generalCFObject = ABRecordCopyValue(person, kABPersonFirstNameProperty);
@@ -976,16 +973,15 @@
                     FriendsList.allFriends = objects;
                     for (PFUser* object in objects)
                     {
-                        NSLog(@"User ObjectId: %@",object);
-                        NSLog(@"%@", [PFUser currentUser]);
                         [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];
                         PFQuery *pushQuery = [PFInstallation query];
                         [pushQuery whereKey:@"user" equalTo:object];
-                        NSString * Name = object[@"fullName"];
-                        NSLog(@"%@", Name);
+                        NSString * Name = [PFUser currentUser][@"fullName"];
+                        NSString * Username = [PFUser currentUser][@"username"];
+                       
                         // Send push notification to query
                         NSDictionary *data = @{
-                                               @"alert" : [NSString stringWithFormat:@"One of your friends, %@ has joined!" ,Name],
+                                               @"alert" : [NSString stringWithFormat:@"One of your friends, %@ has joined! Add him, %@" ,Name, Username],
                                                @"p" :[PFUser currentUser].objectId,
                                                };
                         PFPush *push = [[PFPush alloc] init];
@@ -1010,7 +1006,7 @@
             
         }
         
-    }
+    
    
     [FriendsList ReloadTableData];
 
