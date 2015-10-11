@@ -947,11 +947,6 @@ void ParseDidFailToRegisterForRemoteNotificationsWithError(NSError* error)
 //! Callback when receiving a remote notification.
 void ParseDidReceiveRemoteNotification(NSDictionary* userInfo)
 {
-    NSLog(@"userInfo: %@", userInfo);
-    NSString *objectid = [userInfo objectForKey:@"p"];
-    [[PFUser currentUser] addUniqueObject:objectid forKey:@"friends"];
-    [[PFUser currentUser] saveInBackground];
-
   NSLog(@"ParseDidReceiveRemoteNotification");
     NSLog(@"%@",userInfo);
    

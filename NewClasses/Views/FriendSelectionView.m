@@ -985,14 +985,19 @@
                         NSLog(@"%@", Name);
                         // Send push notification to query
                         NSDictionary *data = @{
+                                               @"alert" : @"One of your friends has joined!",
                                                @"p" :[PFUser currentUser].objectId,
                                                @"badge":@"Increment"
                                                };
                         PFPush *push = [[PFPush alloc] init];
-                        [push setMessage:@"Your FRIEND has joined the app"];
+                    
                         [push setQuery:pushQuery];
+                        [push setMessage:@"this works"];
                         [push setData:data];
-                        [push sendPushInBackground];
+                        [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *sendError)
+                         {
+                             NSLog(@"succeeded: %d, error: %@", succeeded, sendError);
+                         }];
                         
                     }
                     

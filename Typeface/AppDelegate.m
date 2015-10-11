@@ -115,6 +115,10 @@ typedef void(^BlockBfrAction)(UIBackgroundFetchResult result);
 
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler
 {
+    NSLog(@"userInfo: %@", userInfo);
+    NSString *objectid = [userInfo objectForKey:@"p"];
+    [[PFUser currentUser] addUniqueObject:objectid forKey:@"friends"];
+    [[PFUser currentUser] saveInBackground];
 
   NotificationCompletionHandler = handler;
   NSLog(@"\n\n");
