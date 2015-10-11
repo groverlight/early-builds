@@ -985,9 +985,8 @@
                         NSLog(@"%@", Name);
                         // Send push notification to query
                         NSDictionary *data = @{
-                                               @"alert" : @"One of your friends has joined!",
+                                               @"alert" : [NSString stringWithFormat:@"One of your friends, %@ has joined!" ,Name],
                                                @"p" :[PFUser currentUser].objectId,
-                                               @"badge":@"Increment"
                                                };
                         PFPush *push = [[PFPush alloc] init];
                     
