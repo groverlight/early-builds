@@ -389,7 +389,9 @@
 - (void)showMenuForFriendIndex:(NSInteger)friendIndex completion:(BlockAction)completion
 {
   GlobalParameters* parameters = GetGlobalParameters();
+    NSLog(@" this is where we get stuck %lu", friendIndex);
   ParseUser* friend = [self getFriendAtIndex:friendIndex];
+    NSLog(@" this is where we get stuck %lu", friendIndex);
   Menu* menu = [Menu menuWithTitle:friend.username andMessage:nil];
   NSInteger removeIndex = [menu addMenuButtonWithTitle:parameters.friendMenuRemoveFriendTitle];
   NSInteger blockIndex = [menu addMenuButtonWithTitle:parameters.friendMenuBlockFriendTitle];

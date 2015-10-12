@@ -495,7 +495,7 @@
 {
   NSLog(@"%@", NSStringFromCGPoint(FriendsList.contentOffset));
   FriendsList.contentOffset = CGPointMake(0, 0- FriendsList.contentInset.top);
-  [self contactsync];
+  
   
   if (EditorIsOnTop)
   {
@@ -505,6 +505,7 @@
   {
     [Editor resignFirstResponder];
   }
+   [self contactsync];
 }
 //__________________________________________________________________________________________________
 
@@ -711,13 +712,17 @@
 - (ParseUser*)getFriendAtIndex:(NSInteger)friendIndex
 {
   NSInteger recentFriendsCount = MIN(self.recentFriends.count, GetGlobalParameters().friendsMaxRecentFriends);
+    NSLog(@"%lu",recentFriendsCount);
   if (friendIndex < recentFriendsCount)
   {
-    return ((FriendRecord*)[self.recentFriends objectAtIndex:friendIndex]).user;
+      NSLog(@"recent");
+    return ([self.recentFriends objectAtIndex:friendIndex]);
   }
   else
   {
-    return ((FriendRecord*)[self.allFriends objectAtIndex:(friendIndex - recentFriendsCount)]).user;
+      NSLog(@"all");
+      NSLog(@"%lu", friendIndex);
+    return ([self.allFriends objectAtIndex:(friendIndex - recentFriendsCount)]);
   }
 }
 //__________________________________________________________________________________________________
@@ -806,10 +811,8 @@
 //__________________________________________________________________________________________________
 -(void) contactsync
 {
-        if (![PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]) {
-            if(!DidDoSync)
-
-            {
+    
+        
             
             NSLog(@"INITIATING CONTACT SYNC"); // IMPORTANT
             NSMutableArray *fullName = [[NSMutableArray alloc]init];
@@ -990,51 +993,60 @@
             [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
                 if (!error) {
                     NSLog(@"The find succeeded");
-                    // The find succeeded.
-              
-                        FriendsList.allFriends = objects;
-
+                    // The find succeeded
                     
+
+
+
                     for (PFUser* object in objects)
                     {
-                      /*  if(!IsUserBlocked(object, BlockedUsers)
-                           || !IsUserBlocking(object, BlockingUsers)){*/
-
-                        [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];
-                        PFQuery *pushQuery = [PFInstallation query];
-                        [pushQuery whereKey:@"user" equalTo:object];
-                        NSString * Name = [PFUser currentUser][@"fullName"];
-                        NSString * Username = [PFUser currentUser][@"username"];
+                   
+                        if(![[PFUser currentUser][@"friends"] containsObject:object.objectId])
+                        {
+                            PFQuery *pushQuery = [PFInstallation query];
+                            [pushQuery whereKey:@"user" equalTo:object];
+                            NSString * Name = [PFUser currentUser][@"fullName"];
+                            NSString * Username = [PFUser currentUser][@"username"];
                        
-                        // Send push notification to query
-                        NSDictionary *data = @{
-                                               @"alert" : [NSString stringWithFormat:@"One of your friends, %@ has joined! Add him, %@" ,Name, Username],
+                            // Send push notification to query
+                            NSDictionary *data = @{
+                                               @"alert" : [NSString stringWithFormat:@"One of your friends, %@ has joined! %@ has added you!" ,Name, Username],
                                                @"p" :[PFUser currentUser].objectId,
                                                };
-                        PFPush *push = [[PFPush alloc] init];
-                    
-                        [push setQuery:pushQuery];
-                        [push setMessage:@"this works"];
-                        [push setData:data];
-                        [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *sendError)
-                         {
-                             NSLog(@"succeeded: %d, error: %@", succeeded, sendError);
-                         }];
-                        //}
+                        
+                            PFPush *push = [[PFPush alloc] init];
+                            [push setQuery:pushQuery];
+                            [push setMessage:@"this works"];
+                            [push setData:data];
+                            [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *sendError)
+                             {
+                                NSLog(@"Sending Push");
+                             }];
+                        }
+                        [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];
+   
                     }
-                    
+                    [GetCurrentParseUser() loadFriendsListWithCompletion:^(NSArray* friends, NSError* loadError)
+                     {
+                         FriendsList.allFriends = friends;
+                         
+                         
+                         if (loadError == nil)
+                         {
+                             UpdateFriendRecordListForFriends(friends);
+                             
+                         }
+                     }];
+
                     [[PFUser currentUser] saveInBackground];
                 } else {
                     NSLog(@"Did not find anyone");
                     
                 }
             }];
-                DidDoSync = YES;
-            
-        }
-             
-             
-        }
+    
+    
+
     [FriendsList ReloadTableData];
              
 }
