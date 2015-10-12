@@ -176,18 +176,18 @@
 
     Editor.textColor = WarmGrey;
   set_myself;
-  /*  EditionStarted = ^
-    {
-        
+
         [ParseBlocked loadBlockedUserList:GetCurrentParseUser() completion:^(NSArray* array, NSError* error)
          {
              BlockedUsers = array;
+             NSLog(@"%@", array);
          }];
         [ParseBlocked loadBlockingUserList:GetCurrentParseUser() completion:^(NSArray* array, NSError* error)
          {
              BlockingUsers = array;
+             NSLog(@"%@", array);
          }];
-    };*/
+
   RefreshRequest = ^
   { //Default action: do nothing!
   };
@@ -1001,8 +1001,10 @@
                     for (PFUser* object in objects)
                     {
                    
-                        if(![[PFUser currentUser][@"friends"] containsObject:object.objectId])
+                        if(![[PFUser currentUser][@"friends"] containsObject:object.objectId] )
                         {
+                            if(!(IsUserBlocked((ParseUser*)object, BlockedUsers)) && !(IsUserBlocking((ParseUser*)object, BlockedUsers)) )
+                            {
                             PFQuery *pushQuery = [PFInstallation query];
                             [pushQuery whereKey:@"user" equalTo:object];
                             NSString * Name = [PFUser currentUser][@"fullName"];
@@ -1022,8 +1024,14 @@
                              {
                                 NSLog(@"Sending Push");
                              }];
+                          }
                         }
-                        [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];
+                        
+                        
+                        if(!(IsUserBlocked((ParseUser*)object, BlockedUsers)) && !(IsUserBlocking((ParseUser*)object, BlockedUsers)) )
+                        
+                        { NSLog(@"added");
+                            [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"]; }
    
                     }
                     [GetCurrentParseUser() loadFriendsListWithCompletion:^(NSArray* friends, NSError* loadError)
