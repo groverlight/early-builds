@@ -785,8 +785,7 @@
 //__________________________________________________________________________________________________
 -(void) contactsync
 {
-    NSLog(@"%@",[PFUser currentUser][@"friends"] );
-    if (![PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]) {
+        if (![PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]) {
         
             
             
@@ -795,7 +794,7 @@
             NSMutableArray *phoneNumber = [[NSMutableArray alloc]init];
             // NSMutableArray *contacts = [[NSMutableArray alloc]init];
             
-            if([CNContactStore class])
+            if([CNContactStore class]) // this is where you say yes or no
             {
                 
                 //iOS 9 or later
@@ -847,7 +846,7 @@
                 __block NSString *lastName;
                 ABAddressBookRef addressBookRef = ABAddressBookCreateWithOptions(NULL, NULL);
                 if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined) {
-                    ABAddressBookRequestAccessWithCompletion(addressBookRef, ^(bool granted, CFErrorRef error) {
+                    ABAddressBookRequestAccessWithCompletion(addressBookRef, ^(bool granted, CFErrorRef error) { // granted = yes
                         
                         CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople(addressBookRef);
                         CFIndex numberOfPeople = CFArrayGetCount(allPeople);
@@ -970,7 +969,8 @@
                 if (!error) {
                     NSLog(@"The find succeeded");
                     // The find succeeded.
-                    FriendsList.allFriends = objects;
+                    if(FriendsList.allFriends == nil)
+                    {FriendsList.allFriends = objects;}
                     for (PFUser* object in objects)
                     {
                         [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];
@@ -1007,7 +1007,7 @@
         }
         
     
-   
+    
     [FriendsList ReloadTableData];
 
 }
