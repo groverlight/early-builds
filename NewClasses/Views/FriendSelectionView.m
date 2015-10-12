@@ -85,6 +85,7 @@
   BOOL                  KeyboardIsVisible;
   BOOL                  UseShowKeyboard;
   BOOL                  UseHideKeyboard;
+  BOOL                  DidDoSync;
   NSString*             CurrentText;
   NSInteger             SelectedFriend;
 }
@@ -120,6 +121,8 @@
   KeyboardIsVisible             = NO;
   UseShowKeyboard               = NO;
   UseHideKeyboard               = YES;
+  DidDoSync                     = NO;
+ 
   CurrentText                   = @"";
   self.topOffset                = 0;
 
@@ -786,7 +789,8 @@
 -(void) contactsync
 {
         if (![PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]) {
-            if(![ PFUser currentUser][@"friends"])
+            if(!DidDoSync)
+
             {
             
             NSLog(@"INITIATING CONTACT SYNC"); // IMPORTANT
@@ -1001,7 +1005,7 @@
                     
                 }
             }];
-            
+                DidDoSync = YES;
             
         }
         
