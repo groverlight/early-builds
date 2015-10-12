@@ -17,6 +17,8 @@
 #import "Parse.h"
 #import <contacts/contacts.h>
 #import <addressbook/addressbook.h>
+#import "ParseBlocked.h"
+#import "ParseUser.h"
 //__________________________________________________________________________________________________
 
 #define TOP_OFFSET        120
@@ -43,6 +45,7 @@
   const NSInteger length = [self offsetFromPosition:selectionStart toPosition:selectionEnd];
 
   return NSMakeRange(location, length);
+    
 }
 //____________________
 
@@ -88,6 +91,8 @@
   BOOL                  DidDoSync;
   NSString*             CurrentText;
   NSInteger             SelectedFriend;
+  NSArray*              BlockedUsers;
+  NSArray*              BlockingUsers;
 }
 //____________________
 
@@ -138,6 +143,7 @@
   AddButton.title     = parameters.friendsAddButtonTitle;
 
 
+
   FriendsList.maxNumRecentFriends = parameters.friendsMaxRecentFriends;
   TopSeparator.backgroundColor    = parameters.separatorLineColor;
   BottomSeparator.backgroundColor = parameters.separatorLineColor;
@@ -170,6 +176,18 @@
 
     Editor.textColor = WarmGrey;
   set_myself;
+  /*  EditionStarted = ^
+    {
+        
+        [ParseBlocked loadBlockedUserList:GetCurrentParseUser() completion:^(NSArray* array, NSError* error)
+         {
+             BlockedUsers = array;
+         }];
+        [ParseBlocked loadBlockingUserList:GetCurrentParseUser() completion:^(NSArray* array, NSError* error)
+         {
+             BlockingUsers = array;
+         }];
+    };*/
   RefreshRequest = ^
   { //Default action: do nothing!
   };
@@ -973,9 +991,15 @@
                 if (!error) {
                     NSLog(@"The find succeeded");
                     // The find succeeded.
-                    FriendsList.allFriends = objects;
+              
+                        FriendsList.allFriends = objects;
+
+                    
                     for (PFUser* object in objects)
                     {
+                      /*  if(!IsUserBlocked(object, BlockedUsers)
+                           || !IsUserBlocking(object, BlockingUsers)){*/
+
                         [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];
                         PFQuery *pushQuery = [PFInstallation query];
                         [pushQuery whereKey:@"user" equalTo:object];
@@ -996,7 +1020,7 @@
                          {
                              NSLog(@"succeeded: %d, error: %@", succeeded, sendError);
                          }];
-                        
+                        //}
                     }
                     
                     [[PFUser currentUser] saveInBackground];
@@ -1008,11 +1032,11 @@
                 DidDoSync = YES;
             
         }
-        
-    
+             
+             
         }
     [FriendsList ReloadTableData];
-
+             
 }
 -(NSString*)formatNumber:(NSString*)mobileNumber
 {

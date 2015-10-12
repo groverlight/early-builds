@@ -174,8 +174,10 @@
     {
         [TimeSortedList removeAllObjects];
     }
+
     else
     {
+    
         [TimeSortedList sortUsingComparator:^NSComparisonResult(id obj1, id obj2)
          {
              FriendRecord* record1 = (FriendRecord*)obj1;
@@ -194,6 +196,7 @@
                  return NSOrderedSame;
              }
          }];
+
     }
 
 #if 0
@@ -326,7 +329,7 @@
         if (!found)
         {
             NSLog(@"5 updateActivityForFriends: %@", timeRecord.fullName);
-            /*[TimeSortedList removeObject:timeRecord];*/
+            [TimeSortedList removeObject:timeRecord];
             changed = YES;
         }
     }
