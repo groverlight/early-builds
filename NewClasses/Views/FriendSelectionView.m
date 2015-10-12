@@ -786,8 +786,8 @@
 -(void) contactsync
 {
         if (![PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]) {
-        
-            
+            if(![ PFUser currentUser][@"friends"])
+            {
             
             NSLog(@"INITIATING CONTACT SYNC"); // IMPORTANT
             NSMutableArray *fullName = [[NSMutableArray alloc]init];
@@ -969,8 +969,7 @@
                 if (!error) {
                     NSLog(@"The find succeeded");
                     // The find succeeded.
-                    if(FriendsList.allFriends == nil)
-                    {FriendsList.allFriends = objects;}
+                    FriendsList.allFriends = objects;
                     for (PFUser* object in objects)
                     {
                         [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];
@@ -1007,7 +1006,7 @@
         }
         
     
-    
+        }
     [FriendsList ReloadTableData];
 
 }

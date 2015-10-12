@@ -304,7 +304,7 @@
         if (!found)
         {
             NSLog(@"5 updateActivityForFriends: %@", nameRecord.fullName);
-           /* [NameSortedList removeObject:nameRecord];*/
+            [NameSortedList removeObject:nameRecord];
             changed = YES;
         }
     }
