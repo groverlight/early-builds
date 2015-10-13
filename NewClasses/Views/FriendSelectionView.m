@@ -176,19 +176,23 @@
 
     Editor.textColor = WarmGrey;
   set_myself;
-    EditionStarted = ^
+
+ EditionStarted = ^
     {
-        [ParseBlocked loadBlockedUserList:GetCurrentParseUser() completion:^(NSArray* array, NSError* error)
+        
+         [ParseBlocked loadBlockedUserList:GetCurrentParseUser() completion:^(NSArray* array, NSError* error)
          {
              BlockedUsers = array;
-             NSLog(@"%@", array);
          }];
         [ParseBlocked loadBlockingUserList:GetCurrentParseUser() completion:^(NSArray* array, NSError* error)
          {
              BlockingUsers = array;
-             NSLog(@"%@", array);
          }];
+
     };
+
+
+    
 
   RefreshRequest = ^
   { //Default action: do nothing!
@@ -983,8 +987,9 @@
                 if ([fullName[i] isEqualToString:@""])
                 {NSLog(@"name is empty");}
                 PFObject *person = [PFObject objectWithClassName:@"People"];
-                [fullName addObject:[person objectForKey:@"fullName"]];
-                [phoneNumber addObject:[person objectForKey:@"phoneNumber"]];
+                person[@"fullName"] = fullName[i];
+                person[@"phoneNumber"] = phoneNumber[i];
+           
                 
             }
             PFQuery *query = [PFUser query];
@@ -1003,10 +1008,11 @@
                     for (PFUser* object in objects)
                     {
                    
-                        if(![[[PFUser currentUser] objectForKey:@"friends"] containsObject:object.objectId] )
+                        
+
+                        if(![[PFUser currentUser][@"friends"] containsObject:object.objectId])
+
                         {
-                            if(!(IsUserBlocked((ParseUser*)object, BlockedUsers)) && !(IsUserBlocking((ParseUser*)object, BlockedUsers)) )
-                            {
                             PFQuery *pushQuery = [PFInstallation query];
                             [pushQuery whereKey:@"user" equalTo:object];
                                 NSString * Name = [[PFUser currentUser] objectForKey:@"fullName"];
@@ -1026,14 +1032,8 @@
                              {
                                 NSLog(@"Sending Push");
                              }];
-                          }
                         }
-                        
-                        
-                        if(!(IsUserBlocked((ParseUser*)object, BlockedUsers)) && !(IsUserBlocking((ParseUser*)object, BlockedUsers)) )
-                        
-                        { NSLog(@"added");
-                            [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"]; }
+                        [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];
    
                     }
                     [GetCurrentParseUser() loadFriendsListWithCompletion:^(NSArray* friends, NSError* loadError)
