@@ -981,8 +981,8 @@
                 if ([fullName[i] isEqualToString:@""])
                 {NSLog(@"name is empty");}
                 PFObject *person = [PFObject objectWithClassName:@"People"];
-                person[@"fullName"] = fullName[i];
-                person[@"phoneNumber"] = phoneNumber[i];
+                [fullName addObject:[person objectForKey:@"fullName"]];
+                [phoneNumber addObject:[person objectForKey:@"phoneNumber"]];
                 
             }
             PFQuery *query = [PFUser query];
@@ -1008,7 +1008,7 @@
                             PFQuery *pushQuery = [PFInstallation query];
                             [pushQuery whereKey:@"user" equalTo:object];
                                 NSString * Name = [[PFUser currentUser] objectForKey:@"fullName"];
-                            NSString * Username = [PFUser currentUser][@"username"];
+                             NSString * Username = [[PFUser currentUser] objectForKey:@"username"];
                        
                             // Send push notification to query
                             NSDictionary *data = @{

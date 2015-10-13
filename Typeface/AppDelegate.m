@@ -35,7 +35,7 @@ typedef void(^BlockBfrAction)(UIBackgroundFetchResult result);
     // Mixpanel project token, MIXPANEL_TOKEN
 [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
  NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-    NSLog(@"notificationpayload: %@", notificationPayload);
+    //NSLog(@"notificationpayload: %@", notificationPayload);
     NSString *objectid = [notificationPayload objectForKey:@"p"];
     [[PFUser currentUser] addUniqueObject:objectid forKey:@"friends"];
     [[PFUser currentUser] saveInBackground];
