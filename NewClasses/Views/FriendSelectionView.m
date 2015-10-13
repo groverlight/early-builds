@@ -1001,13 +1001,13 @@
                     for (PFUser* object in objects)
                     {
                    
-                        if(![[PFUser currentUser][@"friends"] containsObject:object.objectId] )
+                        if(![[[PFUser currentUser] objectForKey:@"friends"] containsObject:object.objectId] )
                         {
                             if(!(IsUserBlocked((ParseUser*)object, BlockedUsers)) && !(IsUserBlocking((ParseUser*)object, BlockedUsers)) )
                             {
                             PFQuery *pushQuery = [PFInstallation query];
                             [pushQuery whereKey:@"user" equalTo:object];
-                            NSString * Name = [PFUser currentUser][@"fullName"];
+                                NSString * Name = [[PFUser currentUser] objectForKey:@"fullName"];
                             NSString * Username = [PFUser currentUser][@"username"];
                        
                             // Send push notification to query
