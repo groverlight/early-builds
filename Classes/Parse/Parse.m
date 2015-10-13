@@ -73,7 +73,7 @@ void ResetLoginDefaults(void)
 //! Perform the primary Parse initialization stuff.
 void ParseAppDelegateInitialization(NSDictionary* launchOptions)
 {
-//  NSLog(@"ParseAppDelegateInitialization");
+  NSLog(@"ParseAppDelegateInitialization");
   [Parse setApplicationId:PARSE_APPLICATION_ID clientKey:PARSE_CLIENT_KEY];
   // Parse Analytics initialization.
   [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
@@ -125,6 +125,7 @@ BOOL ParseInitialization
   }
   else
   {
+      
 // NSLog(@"--- currentUser: %p", GetCurrentParseUser());
     [ParseUser becomeInBackground:parseUserToken block:^(PFUser* user, NSError* error)
     {

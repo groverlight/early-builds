@@ -176,7 +176,8 @@
 
     Editor.textColor = WarmGrey;
   set_myself;
-
+    EditionStarted = ^
+    {
         [ParseBlocked loadBlockedUserList:GetCurrentParseUser() completion:^(NSArray* array, NSError* error)
          {
              BlockedUsers = array;
@@ -187,6 +188,7 @@
              BlockingUsers = array;
              NSLog(@"%@", array);
          }];
+    };
 
   RefreshRequest = ^
   { //Default action: do nothing!
