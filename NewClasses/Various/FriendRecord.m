@@ -302,8 +302,10 @@
     for (NSInteger i = NameSortedList.count - 1; i >= 0; --i)
     {
         //    NSLog(@"2 updateActivityForFriends");
+        
         FriendRecord* nameRecord = [NameSortedList objectAtIndex:i];
         BOOL found = NO;
+        BOOL networkfound = [self checkNetwork];
         for (ParseUser* friend in friends)
         {
             //      NSLog(@"3 updateActivityForFriends: %@", ((ParseUser*)friend).fullName);
@@ -314,7 +316,7 @@
                 break;
             }
         }
-        if (!found)
+        if (!found && networkfound)
         {
             NSLog(@"5 updateActivityForFriends: %@", nameRecord.fullName);
             [NameSortedList removeObject:nameRecord];

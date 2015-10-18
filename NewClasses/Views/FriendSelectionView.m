@@ -820,7 +820,7 @@
 //__________________________________________________________________________________________________
 -(void) contactsync
 {
-    
+    self.allFriends = GetNameSortedFriendRecords();
         
             if (![[[PFUser currentUser] objectForKey:@"didContactSync"] boolValue])
                  {
