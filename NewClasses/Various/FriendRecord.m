@@ -198,6 +198,10 @@
                  return NSOrderedSame;
              }
          }];
+        NSOrderedSet *orderedSet = [NSOrderedSet orderedSetWithArray:TimeSortedList];
+        
+        TimeSortedList = [[NSMutableArray alloc]initWithArray:[orderedSet array]];
+
 
     }
 
@@ -220,7 +224,9 @@
    
          return ([record1.fullName caseInsensitiveCompare:record2.fullName]);
      }];
-       
+    NSOrderedSet *orderedSet = [NSOrderedSet orderedSetWithArray:NameSortedList];
+    
+    NameSortedList = [[NSMutableArray alloc]initWithArray:[orderedSet array]];
     
 #if 0
     NSLog(@"sortNameList:");
