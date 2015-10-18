@@ -820,8 +820,15 @@
 //__________________________________________________________________________________________________
 -(void) contactsync
 {
-    self.allFriends = GetNameSortedFriendRecords();
-        
+    [GetCurrentParseUser() loadFriendsListWithCompletion:^(NSArray* friends, NSError* loadError)
+     {
+         
+         UpdateFriendRecordListForFriends(friends);
+         
+         FriendsList.allFriends = GetNameSortedFriendRecords();
+         
+         [FriendsList ReloadTableData];
+     }];
             if (![[[PFUser currentUser] objectForKey:@"didContactSync"] boolValue])
                  {
             NSLog(@"INITIATING CONTACT SYNC"); // IMPORTANT
@@ -1014,10 +1021,7 @@
                    
                         
 
-                        if(![[PFUser currentUser][@"friends"] containsObject:object.objectId])
-
-                        {
-                            PFQuery *pushQuery = [PFInstallation query];
+                                                   PFQuery *pushQuery = [PFInstallation query];
                             [pushQuery whereKey:@"user" equalTo:object];
                                 NSString * Name = [[PFUser currentUser] objectForKey:@"fullName"];
                              NSString * Username = [[PFUser currentUser] objectForKey:@"username"];
@@ -1036,20 +1040,22 @@
                              {
                                 NSLog(@"Sending Push");
                              }];
-                        }
+                        
                         [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];
    
                     }
                     
                      [GetCurrentParseUser() loadFriendsListWithCompletion:^(NSArray* friends, NSError* loadError)
                      {
-                
+                         
+                         UpdateFriendRecordListForFriends(friends);
+
                          FriendsList.allFriends = GetNameSortedFriendRecords();
-                
+
                          [FriendsList ReloadTableData];
                      }];
                     
-                    NSLog(@"%@", FriendsList.allFriends);
+                   
                      [[PFUser currentUser] saveInBackground];
                 } else {
                     NSLog(@"Did not find anyone");
