@@ -331,7 +331,7 @@
             }
         }
         BOOL networkfound = [self checkNetwork];
-        if (!found && !networkfound)
+        if (!found && networkfound)
         {
             NSLog(@"5 updateActivityForFriends: %@", timeRecord.fullName);
             [TimeSortedList removeObject:timeRecord];
