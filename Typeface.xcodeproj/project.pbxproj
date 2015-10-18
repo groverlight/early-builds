@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		27CC97F11BC45AF0006CEC59 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CC97F01BC45AF0006CEC59 /* AddressBook.framework */; };
 		27DCC7EE1BB73263009CD3A6 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DCC7ED1BB73263009CD3A6 /* Contacts.framework */; };
+		27F07B1B1BD43499008DCD6E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F07B1A1BD43499008DCD6E /* Reachability.m */; settings = {ASSET_TAGS = (); }; };
 		4B54798E0871C1CD30766BD2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADC11EAC3B02F3A8EFCAC90A /* libPods.a */; };
 		B617F3271AFFB28F0092EF3C /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = B617F3261AFFB28F0092EF3C /* Menu.m */; };
 		B61B60491AF60A6A00EE2060 /* NetworkActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = B61B60481AF60A6A00EE2060 /* NetworkActivityView.m */; };
@@ -104,6 +105,8 @@
 /* Begin PBXFileReference section */
 		27CC97F01BC45AF0006CEC59 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		27DCC7ED1BB73263009CD3A6 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
+		27F07B191BD43499008DCD6E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		27F07B1A1BD43499008DCD6E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		ADC11EAC3B02F3A8EFCAC90A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B617F3251AFFB28F0092EF3C /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Menu.h; path = NewClasses/Various/Menu.h; sourceTree = "<group>"; };
 		B617F3261AFFB28F0092EF3C /* Menu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Menu.m; path = NewClasses/Various/Menu.m; sourceTree = "<group>"; };
@@ -361,6 +364,8 @@
 		B63F48B61921326D0026EACC /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				27F07B191BD43499008DCD6E /* Reachability.h */,
+				27F07B1A1BD43499008DCD6E /* Reachability.m */,
 				B64C53741A27342600D5A20E /* Alert.h */,
 				B64C53751A27342600D5A20E /* Alert.m */,
 				B63F48B7192132800026EACC /* Blocks.h */,
@@ -843,6 +848,7 @@
 				B656C32D1ACD39E100FE2989 /* HeaderButton.m in Sources */,
 				B64C53761A27342600D5A20E /* Alert.m in Sources */,
 				B6CEE36E19F96E7C005AC1A0 /* POPAnimationRuntime.mm in Sources */,
+				27F07B1B1BD43499008DCD6E /* Reachability.m in Sources */,
 				B651034B1AB6DAB200F124DF /* PagedScrollView.m in Sources */,
 				B66F9FF01AF3BF9F00AEEDA5 /* Colors.m in Sources */,
 				B6B34D73188E6BEE00208D4F /* main.m in Sources */,

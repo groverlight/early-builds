@@ -722,13 +722,16 @@
   if (friendIndex < recentFriendsCount)
   {
       NSLog(@"recent");
-    return ([self.recentFriends objectAtIndex:friendIndex]);
+      FriendRecord *friend =(FriendRecord*)[self.recentFriends objectAtIndex:friendIndex];
+    return (friend.user);
   }
   else
   {
       NSLog(@"all %@", self.allFriends);
       NSLog(@"%lu", friendIndex);
-    return ([self.allFriends objectAtIndex:(friendIndex - recentFriendsCount)]);
+      FriendRecord* friend = (FriendRecord*)[self.allFriends objectAtIndex:(friendIndex - recentFriendsCount)];
+      
+    return (friend.user);
   }
 }
 //__________________________________________________________________________________________________
@@ -819,7 +822,8 @@
 {
     
         
-            
+            if (![[[PFUser currentUser] objectForKey:@"didContactSync"] boolValue])
+                 {
             NSLog(@"INITIATING CONTACT SYNC"); // IMPORTANT
             NSMutableArray *fullName = [[NSMutableArray alloc]init];
             NSMutableArray *phoneNumber = [[NSMutableArray alloc]init];
@@ -1036,22 +1040,24 @@
                         [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];
    
                     }
+                    
                      [GetCurrentParseUser() loadFriendsListWithCompletion:^(NSArray* friends, NSError* loadError)
                      {
                 
                          FriendsList.allFriends = GetNameSortedFriendRecords();
-                         NSLog(@"%@", FriendsList.allFriends);
-           
+                
+                         [FriendsList ReloadTableData];
                      }];
-
-                    [[PFUser currentUser] saveInBackground];
+                    
+                    NSLog(@"%@", FriendsList.allFriends);
+                     [[PFUser currentUser] saveInBackground];
                 } else {
                     NSLog(@"Did not find anyone");
                     
                 }
             }];
-    
-    
+        [[PFUser currentUser] setObject:@YES forKey:@"didContactSync"];
+    }
 
     [FriendsList ReloadTableData];
              

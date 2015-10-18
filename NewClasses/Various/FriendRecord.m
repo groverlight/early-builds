@@ -8,6 +8,7 @@
 #import "Message.h"
 #import "ParseUser.h"
 #import "UnreadMessages.h"
+#import "Reachability.h"
 //__________________________________________________________________________________________________
 
 #define FRIEND_RECORD_LIST_NAME @"FriendRecordList"
@@ -219,11 +220,7 @@
    
          return ([record1.fullName caseInsensitiveCompare:record2.fullName]);
      }];
-       for (FriendRecord* record in NameSortedList)
-    {
-        NSLog(@"%@",record.fullName);
-    }
-  
+       
     
 #if 0
     NSLog(@"sortNameList:");
@@ -333,7 +330,8 @@
                 break;
             }
         }
-        if (!found)
+        BOOL networkfound = [self checkNetwork];
+        if (!found && !networkfound)
         {
             NSLog(@"5 updateActivityForFriends: %@", timeRecord.fullName);
             [TimeSortedList removeObject:timeRecord];
@@ -376,6 +374,32 @@
         [self save];
     }
     //  NSLog(@"11 updateActivityForFriends");
+}
+-(BOOL) checkNetwork
+{
+Reachability *myNetwork = [Reachability reachabilityWithHostname:@"google.com"];
+NetworkStatus myStatus = [myNetwork currentReachabilityStatus];
+
+switch (myStatus) {
+    case NotReachable:
+        NSLog(@"There's no internet connection at all. Display error message now.");
+        return NO;
+        break;
+        
+    case ReachableViaWWAN:
+        NSLog(@"We have a 3G connection");
+        return YES;
+        break;
+        
+    case ReachableViaWiFi:
+        NSLog(@"We have WiFi.");
+        return YES;
+        break;
+        
+    default:
+        break;
+        
+    }
 }
 //__________________________________________________________________________________________________
 
