@@ -726,7 +726,7 @@
   }
   else
   {
-      NSLog(@"all");
+      NSLog(@"all %@", self.allFriends);
       NSLog(@"%lu", friendIndex);
     return ([self.allFriends objectAtIndex:(friendIndex - recentFriendsCount)]);
   }
@@ -1036,16 +1036,12 @@
                         [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];
    
                     }
-                    [GetCurrentParseUser() loadFriendsListWithCompletion:^(NSArray* friends, NSError* loadError)
+                     [GetCurrentParseUser() loadFriendsListWithCompletion:^(NSArray* friends, NSError* loadError)
                      {
-                         FriendsList.allFriends = friends;
-                         
-                         
-                         if (loadError == nil)
-                         {
-                             UpdateFriendRecordListForFriends(friends);
-                             
-                         }
+                
+                         FriendsList.allFriends = GetNameSortedFriendRecords();
+                         NSLog(@"%@", FriendsList.allFriends);
+           
                      }];
 
                     [[PFUser currentUser] saveInBackground];

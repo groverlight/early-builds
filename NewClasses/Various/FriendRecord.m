@@ -31,6 +31,7 @@
         self.user             = user;
         self.lastActivityTime = time;
         self.fullName         = (user.fullName == nil)? @"<Unassigned>": user.fullName;
+        
         NSLog(@"FriendRecord initWithUser: %f, %@", self.lastActivityTime, self.fullName);
     }
     return self;
@@ -215,16 +216,22 @@
      {
          FriendRecord* record1 = (FriendRecord*)obj1;
          FriendRecord* record2 = (FriendRecord*)obj2;
+   
          return ([record1.fullName caseInsensitiveCompare:record2.fullName]);
      }];
+       for (FriendRecord* record in NameSortedList)
+    {
+        NSLog(@"%@",record.fullName);
+    }
+  
     
-/*#if 0
+#if 0
     NSLog(@"sortNameList:");
     for (FriendRecord* record in NameSortedList)
     {
         NSLog(@"timestamp: %ld, name: %@", (long)record.lastActivityTime, record.fullName);
     }
-#endif*/
+#endif
 }
 //__________________________________________________________________________________________________
 
