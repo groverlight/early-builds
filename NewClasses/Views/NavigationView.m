@@ -505,6 +505,7 @@ static NavigationView* Myself;
       }
       myself->ScrollView.scrollView.scrollEnabled = YES;
       NSLog(@"PlayerChunkCompletionAction enable scroll: %d", myself->ScrollView.scrollView.scrollEnabled);
+          NSLog(@"I just watched a message");
       [myself hidePlayer];
     }
     else
@@ -533,6 +534,7 @@ static NavigationView* Myself;
   [Player hideAnimatedToPoint:FinalPlayerPoint andInitialRadius:GetGlobalParameters().friendStateViewCircleRadius completion:^
   {
     NSLog(@"[NavigationView HidePlayer] -> hideAnimatedToPoint completed!");
+
   }];
 }
 //__________________________________________________________________________________________________

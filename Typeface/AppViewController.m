@@ -242,6 +242,8 @@ static AppViewController* MainViewController = nil;
 //! The application did just become active.
 - (void)applicationDidBecomeActive
 {
+    NSLog(@"Or is this an app open???");
+
   NSLog(@"applicationDidBecomeActive");
 
   if ((GetCurrentParseUser() != nil) && MainViewController->LoggedIn)

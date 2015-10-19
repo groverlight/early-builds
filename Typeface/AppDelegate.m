@@ -29,6 +29,8 @@ typedef void(^BlockBfrAction)(UIBackgroundFetchResult result);
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
+    NSLog(@"This is an app open?");
+
     #define MIXPANEL_TOKEN @"b3152c0c9f9d07b8b65bfcfe849194c0"
 
     // Initialize the library with your

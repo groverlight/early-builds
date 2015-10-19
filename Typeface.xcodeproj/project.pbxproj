@@ -764,7 +764,7 @@
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					B6E7AABD1868512800DBB0EB = {
-						DevelopmentTeam = KEKFU6H295;
+						DevelopmentTeam = 4THJ5Z3YGF;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -974,7 +974,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "6be2d633-488f-42ee-93f8-af9af660a991";
+				PROVISIONING_PROFILE = "43d42f98-6fba-4647-af69-4af0366fc3b4";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1010,7 +1010,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				PROVISIONING_PROFILE = "6be2d633-488f-42ee-93f8-af9af660a991";
+				PROVISIONING_PROFILE = "43d42f98-6fba-4647-af69-4af0366fc3b4";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1023,8 +1023,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Grover Light (4MBTY8L594)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Grover Light (4MBTY8L594)";
 				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1047,7 +1047,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.groverlight.Testface;
 				PRODUCT_NAME = Typeface;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "43d42f98-6fba-4647-af69-4af0366fc3b4";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -1060,8 +1060,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Grover Light (4MBTY8L594)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Grover Light (4MBTY8L594)";
 				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1084,7 +1084,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.groverlight.Testface;
 				PRODUCT_NAME = Typeface;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "43d42f98-6fba-4647-af69-4af0366fc3b4";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -1121,7 +1121,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				PROVISIONING_PROFILE = "6be2d633-488f-42ee-93f8-af9af660a991";
+				PROVISIONING_PROFILE = "43d42f98-6fba-4647-af69-4af0366fc3b4";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1134,8 +1134,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Grover Light (4MBTY8L594)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Grover Light (4MBTY8L594)";
 				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1158,7 +1158,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.groverlight.Testface;
 				PRODUCT_NAME = Typeface;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "43d42f98-6fba-4647-af69-4af0366fc3b4";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
