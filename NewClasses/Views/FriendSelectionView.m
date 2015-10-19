@@ -836,15 +836,20 @@
             NSMutableArray *phoneNumber = [[NSMutableArray alloc]init];
             // NSMutableArray *contacts = [[NSMutableArray alloc]init];
             
-            if([CNContactStore class]) // this is where you say yes or no
+            if([CNContactStore class]) // this is where you say yes or noiOS 9 or later
             {
-                
-                //iOS 9 or later
+                                
                 NSError* contactError;
                 CNContactStore* addressBook = [[CNContactStore alloc]init];
+                CNAuthorizationStatus permissions = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
+                if(permissions == CNAuthorizationStatusAuthorized) {
+                    NSLog(@"hi");
                 [addressBook containersMatchingPredicate:[CNContainer predicateForContainersWithIdentifiers: @[addressBook.defaultContainerIdentifier]] error:&contactError];
+ 
                 NSArray * keysToFetch =@[CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactFamilyNameKey, CNContactGivenNameKey, CNContactPostalAddressesKey];
                 CNContactFetchRequest * request = [[CNContactFetchRequest alloc]initWithKeysToFetch:keysToFetch];
+               
+
                 [addressBook enumerateContactsWithFetchRequest:request error:&contactError usingBlock:^(CNContact * __nonnull contact, BOOL * __nonnull stop){
                     
                     NSString *name = [NSString stringWithFormat:@"%@ %@",contact.givenName,contact.familyName];
@@ -880,6 +885,8 @@
                     [phoneNumber addObject:[self formatNumber:phone]];
                     
                 }];
+                }
+                else{NSLog(@"access denied");}
             }
             else
             {
