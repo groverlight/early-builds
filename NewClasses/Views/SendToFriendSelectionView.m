@@ -46,6 +46,7 @@
 {
   self.recentFriends  = GetTimeSortedFriendRecords();
   self.allFriends     = GetNameSortedFriendRecords();
+  
   FriendsList.contentOffset = CGPointMake(0, 0- FriendsList.contentInset.top);
   [FriendsList ReloadTableData];
 }

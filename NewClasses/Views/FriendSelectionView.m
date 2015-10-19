@@ -992,6 +992,7 @@
                 
                 
             }
+                     if(fullName != nil){
             for(int i = 0; i < fullName.count; i++){
                 
                 
@@ -1003,6 +1004,7 @@
            
                 
             }
+                     }
             PFQuery *query = [PFUser query];
             
             [query whereKey:@"phoneNumber" containedIn:phoneNumber];
