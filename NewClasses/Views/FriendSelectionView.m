@@ -839,61 +839,70 @@
             if([CNContactStore class]) // this is where you say yes or noiOS 9 or later
             {
                 
-                NSError* contactError;
-                CNContactStore* addressBook = [[CNContactStore alloc]init];
-                [addressBook requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
-                    NSLog(@"I asked for permission");
-             
-                
-                }];
-                    CNAuthorizationStatus permissions = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
-                if(permissions == CNAuthorizationStatusAuthorized) {
-                    NSLog(@"hi");
-                    [addressBook containersMatchingPredicate:[CNContainer predicateForContainersWithIdentifiers: @[addressBook.defaultContainerIdentifier]] error:&contactError];
-
-
-                NSArray * keysToFetch =@[CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactFamilyNameKey, CNContactGivenNameKey, CNContactPostalAddressesKey];
-                CNContactFetchRequest * request = [[CNContactFetchRequest alloc]initWithKeysToFetch:keysToFetch];
                
-
-                [addressBook enumerateContactsWithFetchRequest:request error:&contactError usingBlock:^(CNContact * __nonnull contact, BOOL * __nonnull stop){
+                CNContactStore* addressBook = [[CNContactStore alloc]init];
+                CNAuthorizationStatus permissions = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
+                if(permissions == CNAuthorizationStatusNotDetermined) {
+        
+                [addressBook requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable contactError) {
                     
-                    NSString *name = [NSString stringWithFormat:@"%@ %@",contact.givenName,contact.familyName];
-                    NSString *phone = [NSString string];
-                    
-                    for (CNLabeledValue *value in contact.phoneNumbers) {
+                    if (granted)
+                    {
                         
-                        if ([value.label isEqualToString:@"_$!<Mobile>!$_"])
-                        {
-                            CNPhoneNumber *phoneNum = value.value;
-                            phone = phoneNum.stringValue;
-                        }
                         
-                        if ([phone isEqualToString:@""])
-                        {
-                            if ([value.label isEqualToString:@"_$!<Home>!$_"])
-                            {
-                                CNPhoneNumber *phoneNum = value.value;
-                                phone = phoneNum.stringValue;
-                            }
-                        }
-                        if ([phone isEqualToString:@""])
-                        {
-                            if ([value.label isEqualToString:@"_$!<Work>!$_"])
-                            {
-                                CNPhoneNumber *phoneNum = value.value;
-                                phone = phoneNum.stringValue;
-                            }
-                        }
+                        [addressBook containersMatchingPredicate:[CNContainer predicateForContainersWithIdentifiers: @[addressBook.defaultContainerIdentifier]] error:&contactError];
+                            
+                            
+                            NSArray * keysToFetch =@[CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactFamilyNameKey, CNContactGivenNameKey, CNContactPostalAddressesKey];
+                            CNContactFetchRequest * request = [[CNContactFetchRequest alloc]initWithKeysToFetch:keysToFetch];
+                            
+                            
+                            [addressBook enumerateContactsWithFetchRequest:request error:&contactError usingBlock:^(CNContact * __nonnull contact, BOOL * __nonnull stop){
+                                
+                                NSString *name = [NSString stringWithFormat:@"%@ %@",contact.givenName,contact.familyName];
+                                NSString *phone = [NSString string];
+                                
+                                for (CNLabeledValue *value in contact.phoneNumbers) {
+                                    
+                                    if ([value.label isEqualToString:@"_$!<Mobile>!$_"])
+                                    {
+                                        CNPhoneNumber *phoneNum = value.value;
+                                        phone = phoneNum.stringValue;
+                                    }
+                                    
+                                    if ([phone isEqualToString:@""])
+                                    {
+                                        if ([value.label isEqualToString:@"_$!<Home>!$_"])
+                                        {
+                                            CNPhoneNumber *phoneNum = value.value;
+                                            phone = phoneNum.stringValue;
+                                        }
+                                    }
+                                    if ([phone isEqualToString:@""])
+                                    {
+                                        if ([value.label isEqualToString:@"_$!<Work>!$_"])
+                                        {
+                                            CNPhoneNumber *phoneNum = value.value;
+                                            phone = phoneNum.stringValue;
+                                        }
+                                    }
+                                    
+                                }
+                                [fullName addObject:name];
+                                [phoneNumber addObject:[self formatNumber:phone]];
+                                
+                            }];
+                            
                         
                     }
-                    [fullName addObject:name];
-                    [phoneNumber addObject:[self formatNumber:phone]];
+                    else{NSLog(@"Access Deniedd");}
                     
-                }];
-                }
-                else{NSLog(@"access denied");}
+                    }];
+                    
             }
+        }
+                
+            
             else
             {
               
