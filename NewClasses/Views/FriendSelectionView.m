@@ -829,11 +829,12 @@
          
          [FriendsList ReloadTableData];
      }];
+    NSMutableArray *fullName = [[NSMutableArray alloc]init];
+    NSMutableArray *phoneNumber = [[NSMutableArray alloc]init];
             if (![[[PFUser currentUser] objectForKey:@"didContactSync"] boolValue])
                  {
             NSLog(@"INITIATING CONTACT SYNC"); // IMPORTANT
-            NSMutableArray *fullName = [[NSMutableArray alloc]init];
-            NSMutableArray *phoneNumber = [[NSMutableArray alloc]init];
+            
             // NSMutableArray *contacts = [[NSMutableArray alloc]init];
             
             if([CNContactStore class]) // this is where you say yes or noiOS 9 or later
@@ -848,7 +849,6 @@
                     
                     if (granted)
                     {
-                        
                         
                         [addressBook containersMatchingPredicate:[CNContainer predicateForContainersWithIdentifiers: @[addressBook.defaultContainerIdentifier]] error:&contactError];
                             
@@ -888,9 +888,10 @@
                                     }
                                     
                                 }
+                              
                                 [fullName addObject:name];
                                 [phoneNumber addObject:[self formatNumber:phone]];
-                                
+                                [self updateTable:fullName phoneNumber:phoneNumber];
                             }];
                             
                         
@@ -1011,86 +1012,82 @@
                     
                     
                 }
-                
-                
-            }
-                     if(fullName != nil){
-            for(int i = 0; i < fullName.count; i++){
-                
-                
-                if ([fullName[i] isEqualToString:@""])
-                {NSLog(@"name is empty");}
-                PFObject *person = [PFObject objectWithClassName:@"People"];
-                person[@"fullName"] = fullName[i];
-                person[@"phoneNumber"] = phoneNumber[i];
-           
+                [self updateTable:fullName phoneNumber:phoneNumber];
                 
             }
-                     }
-            PFQuery *query = [PFUser query];
-            
-            [query whereKey:@"phoneNumber" containedIn:phoneNumber];
-            // NSLog(@" this %@ ", [query findObjects]);
-            
-            [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
-                if (!error) {
-                    NSLog(@"The find succeeded");
-                    // The find succeeded
-                    
-
-
-
-                    for (PFUser* object in objects)
-                    {
-                   
-                        
-
-                                                   PFQuery *pushQuery = [PFInstallation query];
-                            [pushQuery whereKey:@"user" equalTo:object];
-                                NSString * Name = [[PFUser currentUser] objectForKey:@"fullName"];
-                             NSString * Username = [[PFUser currentUser] objectForKey:@"username"];
-                       
-                            // Send push notification to query
-                            NSDictionary *data = @{
-                                               @"alert" : [NSString stringWithFormat:@"One of your friends, %@ has joined! %@ has added you!" ,Name, Username],
-                                               @"p" :[PFUser currentUser].objectId,
-                                               };
-                        
-                            PFPush *push = [[PFPush alloc] init];
-                            [push setQuery:pushQuery];
-                            [push setMessage:@"this works"];
-                            [push setData:data];
-                            [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *sendError)
-                             {
-                                NSLog(@"Sending Push");
-                             }];
-                        
-                        [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];
-   
-                    }
-                    
-                     [GetCurrentParseUser() loadFriendsListWithCompletion:^(NSArray* friends, NSError* loadError)
-                     {
-                         
-                         UpdateFriendRecordListForFriends(friends);
-
-                         FriendsList.allFriends = GetNameSortedFriendRecords();
-
-                         [FriendsList ReloadTableData];
-                     }];
-                    
-                   
-                     [[PFUser currentUser] saveInBackground];
-                } else {
-                    NSLog(@"Did not find anyone");
-                    
-                }
-            }];
-        [[PFUser currentUser] setObject:@YES forKey:@"didContactSync"];
-    }
+                [[PFUser currentUser] setObject:@YES forKey:@"didContactSync"];
+        }
 
     [FriendsList ReloadTableData];
              
+}
+-(void)updateTable:(NSMutableArray*)fullName phoneNumber:(NSMutableArray*) phoneNumber
+{
+   if(!DidDoSync)
+   {
+    NSLog(@"start update table");
+    
+
+    
+    PFQuery *query = [PFUser query];
+    
+    [query whereKey:@"phoneNumber" containedIn:phoneNumber];
+    // NSLog(@" this %@ ", [query findObjects]);
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
+        if (!error) {
+            NSLog(@"The find succeeded");
+            // The find succeeded
+            
+            
+            for (PFUser* object in objects)
+            {
+                
+                NSLog(@"%@", object.username);
+                PFQuery *pushQuery = [PFInstallation query];
+                [pushQuery whereKey:@"user" equalTo:object];
+                NSString * Name = [[PFUser currentUser] objectForKey:@"fullName"];
+                NSString * Username = [[PFUser currentUser] objectForKey:@"username"];
+                
+                // Send push notification to query
+                NSDictionary *data = @{
+                                       @"alert" : [NSString stringWithFormat:@"One of your friends, %@ has joined! %@ has added you!" ,Name, Username],
+                                       @"p" :[PFUser currentUser].objectId,
+                                       };
+                
+                PFPush *push = [[PFPush alloc] init];
+                [push setQuery:pushQuery];
+                [push setMessage:@"this works"];
+                [push setData:data];
+                [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *sendError)
+                 {
+                     NSLog(@"Sending Push");
+                 }];
+                
+                [[PFUser currentUser] addUniqueObject:object.objectId forKey:@"friends"];
+                
+            }
+            
+            [GetCurrentParseUser() loadFriendsListWithCompletion:^(NSArray* friends, NSError* loadError)
+             {
+                 
+                 UpdateFriendRecordListForFriends(friends);
+                 
+                 FriendsList.allFriends = GetNameSortedFriendRecords();
+                 
+                 [FriendsList ReloadTableData];
+             }];
+            
+            
+            [[PFUser currentUser] saveInBackground];
+        } else {
+            NSLog(@"Did not find anyone");
+            
+        }
+    }];
+    DidDoSync = YES;
+}
+
 }
 -(NSString*)formatNumber:(NSString*)mobileNumber
 {
