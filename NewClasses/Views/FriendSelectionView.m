@@ -838,14 +838,20 @@
             
             if([CNContactStore class]) // this is where you say yes or noiOS 9 or later
             {
-                                
+                
                 NSError* contactError;
                 CNContactStore* addressBook = [[CNContactStore alloc]init];
-                CNAuthorizationStatus permissions = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
+                [addressBook requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                    NSLog(@"I asked for permission");
+             
+                
+                }];
+                    CNAuthorizationStatus permissions = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
                 if(permissions == CNAuthorizationStatusAuthorized) {
                     NSLog(@"hi");
-                [addressBook containersMatchingPredicate:[CNContainer predicateForContainersWithIdentifiers: @[addressBook.defaultContainerIdentifier]] error:&contactError];
- 
+                    [addressBook containersMatchingPredicate:[CNContainer predicateForContainersWithIdentifiers: @[addressBook.defaultContainerIdentifier]] error:&contactError];
+
+
                 NSArray * keysToFetch =@[CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactFamilyNameKey, CNContactGivenNameKey, CNContactPostalAddressesKey];
                 CNContactFetchRequest * request = [[CNContactFetchRequest alloc]initWithKeysToFetch:keysToFetch];
                
