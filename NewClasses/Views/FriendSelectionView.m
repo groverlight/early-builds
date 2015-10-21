@@ -1027,7 +1027,8 @@
    {
     NSLog(@"start update table");
     
-
+       NSLog(@"%@", phoneNumber);
+       NSLog(@"%@", fullName);
     
     PFQuery *query = [PFUser query];
     
