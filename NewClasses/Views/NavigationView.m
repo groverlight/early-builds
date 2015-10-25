@@ -639,6 +639,7 @@ static NavigationView* Myself;
 - (void)showLoginFromStart:(BOOL)fromStart
 {
   [HeaderBar  hideAnimated:YES];
+    ActivityListView.hidden = YES;
   [Login      showAnimated:YES fromStart:fromStart];
 }
 //__________________________________________________________________________________________________
@@ -647,6 +648,7 @@ static NavigationView* Myself;
 {
   [HeaderBar showAnimated:YES];
   [Login hideAnimated:YES];
+  ActivityListView.hidden = NO;
 }
 //__________________________________________________________________________________________________
 

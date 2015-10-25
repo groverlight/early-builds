@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2751CE5E1BDC48E10091B8BD /* xx.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2751CE5D1BDC48E10091B8BD /* xx.mp4 */; };
+		2751CE641BDC67630091B8BD /* VideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2751CE631BDC67630091B8BD /* VideoViewController.xib */; };
+		27A3B5C51BDC45D900882D81 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A3B5C41BDC45D900882D81 /* VideoViewController.m */; };
 		27CC97F11BC45AF0006CEC59 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CC97F01BC45AF0006CEC59 /* AddressBook.framework */; };
 		27DCC7EE1BB73263009CD3A6 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DCC7ED1BB73263009CD3A6 /* Contacts.framework */; };
-		27F07B1B1BD43499008DCD6E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F07B1A1BD43499008DCD6E /* Reachability.m */; settings = {ASSET_TAGS = (); }; };
+		27F07B1B1BD43499008DCD6E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F07B1A1BD43499008DCD6E /* Reachability.m */; };
 		4B54798E0871C1CD30766BD2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADC11EAC3B02F3A8EFCAC90A /* libPods.a */; };
 		B617F3271AFFB28F0092EF3C /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = B617F3261AFFB28F0092EF3C /* Menu.m */; };
 		B61B60491AF60A6A00EE2060 /* NetworkActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = B61B60481AF60A6A00EE2060 /* NetworkActivityView.m */; };
@@ -103,6 +106,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2751CE5D1BDC48E10091B8BD /* xx.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = xx.mp4; sourceTree = SOURCE_ROOT; };
+		2751CE631BDC67630091B8BD /* VideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoViewController.xib; sourceTree = SOURCE_ROOT; };
+		27A3B5C31BDC45D900882D81 /* VideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewController.h; sourceTree = SOURCE_ROOT; };
+		27A3B5C41BDC45D900882D81 /* VideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewController.m; sourceTree = SOURCE_ROOT; };
 		27CC97F01BC45AF0006CEC59 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		27DCC7ED1BB73263009CD3A6 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
 		27F07B191BD43499008DCD6E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -297,13 +304,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B631CF531977CBFD00CD3BC9 /* AVFoundation.framework in Frameworks */,
 				27CC97F11BC45AF0006CEC59 /* AddressBook.framework in Frameworks */,
 				27DCC7EE1BB73263009CD3A6 /* Contacts.framework in Frameworks */,
 				F45A1AA51B857B220004B506 /* Accounts.framework in Frameworks */,
 				F45A1AA31B857B1A0004B506 /* Social.framework in Frameworks */,
 				B6B982BB1AECD619009A8423 /* MobileCoreServices.framework in Frameworks */,
 				B6B982B41AEB7ACF009A8423 /* libsqlite3.dylib in Frameworks */,
-				B631CF531977CBFD00CD3BC9 /* AVFoundation.framework in Frameworks */,
 				B6A021CD1963F0C500C1BEA3 /* CFNetwork.framework in Frameworks */,
 				B6A021CF1963F0C500C1BEA3 /* libz.dylib in Frameworks */,
 				B6A021D11963F0C500C1BEA3 /* QuartzCore.framework in Frameworks */,
@@ -676,6 +683,10 @@
 		B6E7AAC71868512800DBB0EB /* Typeface */ = {
 			isa = PBXGroup;
 			children = (
+				2751CE631BDC67630091B8BD /* VideoViewController.xib */,
+				2751CE5D1BDC48E10091B8BD /* xx.mp4 */,
+				27A3B5C31BDC45D900882D81 /* VideoViewController.h */,
+				27A3B5C41BDC45D900882D81 /* VideoViewController.m */,
 				F4F585441B82A9C80016D180 /* AppDelegate.h */,
 				F4F585451B82A9C80016D180 /* AppDelegate.m */,
 				F4F585461B82A9C80016D180 /* AppViewController.h */,
@@ -799,7 +810,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2751CE5E1BDC48E10091B8BD /* xx.mp4 in Resources */,
 				B652A13E1A9E7D1F006222EE /* ImageAssets in Resources */,
+				2751CE641BDC67630091B8BD /* VideoViewController.xib in Resources */,
 				F4F5854D1B82A9C80016D180 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -862,6 +875,7 @@
 				B65810231AA4A1DC0086820C /* TableView.m in Sources */,
 				B65810241AA4A1DC0086820C /* TableViewCell.m in Sources */,
 				B6B982C71AECDC93009A8423 /* RollDownView.m in Sources */,
+				27A3B5C51BDC45D900882D81 /* VideoViewController.m in Sources */,
 				B6D54A0F1ADC277E00C77CEA /* Message.m in Sources */,
 				B6CEE37019F96E7C005AC1A0 /* POPAnimationTracer.mm in Sources */,
 				B6CEE36C19F96E7C005AC1A0 /* POPAnimationExtras.mm in Sources */,

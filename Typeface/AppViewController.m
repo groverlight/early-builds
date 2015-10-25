@@ -17,6 +17,7 @@
 #import "UnreadMessages.h"
 #import "ViewStackView.h"
 #import "Mixpanel.h"
+#import "VideoViewController.h"
 //__________________________________________________________________________________________________
 
 #define BE_YOUR_BEST_FRIEND 0 //!< Define to 1 to declare the current user to be his own friend.
@@ -43,6 +44,7 @@ static AppViewController* MainViewController = nil;
 {
   ViewStackView*  ViewStack;
   NavigationView* NavView;
+ VideoViewController *Intro;
   BOOL            LoadingMessages;
 }
 //@synthesize cardNavigator;
@@ -190,11 +192,18 @@ static AppViewController* MainViewController = nil;
   ParseInitialization(^(PFUser* user, BOOL newUser, BOOL restart, NSError *error)
   {
     [NavView updateFriendsLists];
+
     if (error == nil)
     {
       if (newUser)
       {
-        [NavView showLoginFromStart:restart];
+          [self dismissViewControllerAnimated:YES completion:nil];
+          Intro = [[VideoViewController alloc]init];
+          dispatch_async(dispatch_get_main_queue(), ^(void){
+              [self presentViewController:Intro animated:YES completion:nil];      });
+
+            [NavView showLoginFromStart:restart];
+        
       }
       else
       {
@@ -242,7 +251,6 @@ static AppViewController* MainViewController = nil;
 //! The application did just become active.
 - (void)applicationDidBecomeActive
 {
-    NSLog(@"Or is this an app open???");
 
   NSLog(@"applicationDidBecomeActive");
 
@@ -259,6 +267,8 @@ static AppViewController* MainViewController = nil;
   }
   else
   {
+    
+      
     [ViewStack showLiveViewAnimated:NO];
   }
 }

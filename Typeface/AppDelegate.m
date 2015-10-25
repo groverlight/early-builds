@@ -46,12 +46,11 @@ typedef void(^BlockBfrAction)(UIBackgroundFetchResult result);
 
   // Parse initialization.
   ParseAppDelegateInitialization(launchOptions);
-
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   RootViewController = [[AppViewController alloc] init];
   [self.window setRootViewController:RootViewController];
-  [self.window makeKeyAndVisible];
-  return YES;
+  
+[self.window makeKeyAndVisible];  return YES;
 }
 //__________________________________________________________________________________________________
 
