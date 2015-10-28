@@ -843,13 +843,10 @@
                
                 CNContactStore* addressBook = [[CNContactStore alloc]init];
                 CNAuthorizationStatus permissions = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
-                if(permissions == CNAuthorizationStatusNotDetermined) {
+                NSError *contactError;
+                if(permissions == CNAuthorizationStatusAuthorized) {
         
-                [addressBook requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable contactError) {
                     
-                    if (granted)
-                    {
-                        
                         [addressBook containersMatchingPredicate:[CNContainer predicateForContainersWithIdentifiers: @[addressBook.defaultContainerIdentifier]] error:&contactError];
                             
                             
@@ -892,18 +889,14 @@
                                 [fullName addObject:name];
                                 [phoneNumber addObject:[self formatNumber:phone]];
                                 
-                                
-                        
                             }];
                         [self updateTable:fullName phone:phoneNumber];
                     }
                     
-                    else{NSLog(@"Access Deniedd");}
-                    
-                    }];
+               
                     
             }
-        }
+        
                 
             
             else
@@ -912,8 +905,7 @@
                 __block NSString *firstName;
                 __block NSString *lastName;
                 ABAddressBookRef addressBookRef = ABAddressBookCreateWithOptions(NULL, NULL);
-                if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined) {
-                    ABAddressBookRequestAccessWithCompletion(addressBookRef, ^(bool granted, CFErrorRef error) { // granted = yes
+          
                         
                         CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople(addressBookRef);
                         CFIndex numberOfPeople = CFArrayGetCount(allPeople);
@@ -960,70 +952,17 @@
                             CFRelease(phoneNumbers);
                             
                         }
-                    
-                    });
-                }
-                else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized)
-                {
-                    
-                    CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople(addressBookRef);
-                    CFIndex numberOfPeople = CFArrayGetCount(allPeople);
-                    NSLog(@"%lu", numberOfPeople);
-                    for(int  i = 0; i < numberOfPeople; i++) {
-                    
-                        ABRecordRef person = CFArrayGetValueAtIndex( allPeople, i );
-                        // Use a general Core Foundation object.
-                        CFTypeRef generalCFObject = ABRecordCopyValue(person, kABPersonFirstNameProperty);
-                        
-                        // Get the first name.
-                        if (generalCFObject) {
-                            firstName =(__bridge NSString *)generalCFObject;
-                            CFRelease(generalCFObject);
-                        }
-                        
-                        // Get the last name.
-                        generalCFObject = ABRecordCopyValue(person, kABPersonLastNameProperty);
-                        if (generalCFObject) {
-                            lastName =(__bridge NSString *)generalCFObject;
-                            CFRelease(generalCFObject);
-                        }
-                        [fullName addObject: [NSString stringWithFormat:@"%@ %@", firstName, lastName]];
-                        NSLog(@"%@", [fullName objectAtIndex:i]);
-                        ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
-                        
-                        for (CFIndex j = 0; j < ABMultiValueGetCount(phoneNumbers); j++) {
-                            CFStringRef currentPhoneLabel = ABMultiValueCopyLabelAtIndex(phoneNumbers, j);
-                            CFStringRef currentPhoneValue = ABMultiValueCopyValueAtIndex(phoneNumbers, j);
-                            
-                            if (CFStringCompare(currentPhoneLabel, kABPersonPhoneMobileLabel, 0) == kCFCompareEqualTo) {
-                                [phoneNumber addObject:[self formatNumber:(__bridge NSString *)currentPhoneValue]];
-                            }
-                            
-                            else if (CFStringCompare(currentPhoneLabel, kABHomeLabel, 0) == kCFCompareEqualTo) {
-                                [phoneNumber addObject:[self formatNumber:(__bridge NSString *)currentPhoneValue]];                 }
-                            else if (CFStringCompare(currentPhoneLabel, kABWorkLabel, 0) == kCFCompareEqualTo) {
-                                [phoneNumber addObject:[self formatNumber:(__bridge NSString *)currentPhoneValue]];
-                            }
-                            
-                            CFRelease(currentPhoneLabel);
-                            CFRelease(currentPhoneValue);
-                        }
-                        CFRelease(phoneNumbers);
-                        
-                    }
-                    
-                    
+                 [self updateTable:fullName phone:phoneNumber];
                 }
                 
-                [self updateTable:fullName phone:phoneNumber];
-                
-            }
+            
                 [[PFUser currentUser] setObject:@YES forKey:@"didContactSync"];
         }
 
     [FriendsList ReloadTableData];
              
 }
+
 -(void)updateTable:(NSArray*)fullName phone:(NSArray*)phoneNumber
                     {
                                  PFQuery *query = [PFUser query];
