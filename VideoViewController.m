@@ -1,10 +1,7 @@
 //
 //  ViewController.m
 //  VideoCover
-//
-//  Created by Bi Chen Ka Kit on 2/6/14.
-//  Copyright (c) 2014年 biworks. All rights reserved.
-//
+
 
 #import "VideoViewController.h"
 #import "AppViewController.h"
@@ -37,6 +34,10 @@
     UIButton *camera;
     UIButton *contacts;
     UIButton *notifications;
+    
+    NSInteger buttonIndicate;
+    POPSpringAnimation *spring;
+    POPBasicAnimation *disappear;
     }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -50,8 +51,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
- 
-    
+    buttonIndicate = 0;
+    /*-----------------------------------------------------------------------------------------*/
+    spring = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+    spring.toValue = [NSValue valueWithCGPoint:CGPointMake(0.9, 0.9)];
+    spring.velocity = [NSValue valueWithCGPoint:CGPointMake(2, 2)];
+    spring.springBounciness = 20.f;
+
+    /*----------------------------------------------------------------------------------------*/
+    disappear = [POPBasicAnimation animation];
+    disappear.property = [POPAnimatableProperty propertyWithName:kPOPViewAlpha];
+    disappear.toValue = @(0);
+    /*-----------------------------------------------------------------------------------------*/
     pageControl = [[UIPageControl alloc] init];
     pageControl.frame = self.view.frame;
     pageControl.numberOfPages = 10;
@@ -179,12 +190,9 @@
 
 
 - (IBAction)button1Pressed:(id)sender {
-    POPSpringAnimation *spring = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
-    spring.toValue = [NSValue valueWithCGPoint:CGPointMake(0.9, 0.9)];
-    spring.velocity = [NSValue valueWithCGPoint:CGPointMake(2, 2)];
-    spring.springBounciness = 20.f;
-    [button1 pop_addAnimation:spring forKey:@"springAnimation"];
 
+    [button1 pop_addAnimation:spring forKey:@"springAnimation"];
+    [self.movieView pop_addAnimation:disappear forKey:@"kPOPViewAlpha"];
     ++pageControl.currentPage;
     switch (pageControl.currentPage) {
         case 0:
@@ -219,6 +227,8 @@
             camera.hidden = NO;
             contacts.hidden = NO;
             notifications.hidden = NO;
+            button1.userInteractionEnabled = NO;
+            button1.backgroundColor = [UIColor grayColor];
             break;
         case 9:
             label.text = @"9";
@@ -238,10 +248,7 @@
  
    }
 - (IBAction)button2Pressed:(id)sender {
-    POPSpringAnimation *spring = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
-    spring.toValue = [NSValue valueWithCGPoint:CGPointMake(0.9, 0.9)];
-    spring.velocity = [NSValue valueWithCGPoint:CGPointMake(2, 2)];
-    spring.springBounciness = 20.f;
+
     [button2 pop_addAnimation:spring forKey:@"springAnimation"];
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -253,14 +260,13 @@
     camera.hidden = NO;
     contacts.hidden = NO;
     notifications.hidden = NO;
+    button1.userInteractionEnabled = NO;
+    button1.backgroundColor = [UIColor grayColor];
     label.text = @"9";
     
 }
 -(IBAction)cameraPermission:(id)sender{
-    POPSpringAnimation *spring = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
-    spring.toValue = [NSValue valueWithCGPoint:CGPointMake(0.9, 0.9)];
-    spring.velocity = [NSValue valueWithCGPoint:CGPointMake(2, 2)];
-    spring.springBounciness = 20.f;
+
     [camera pop_addAnimation:spring forKey:@"springAnimation"];
     [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
         // Will get here on both iOS 7 & 8 even though camera permissions weren't required
@@ -269,20 +275,25 @@
             // Permission has been granted. Use dispatch_async for any UI updating
             // code because this block may be executed in a thread.
             dispatch_async(dispatch_get_main_queue(), ^{
+                camera.backgroundColor = [UIColor greenColor];
+                buttonIndicate++;
+                if (buttonIndicate == 3)
+                {
+                    button1.userInteractionEnabled = YES;
+                    button1.backgroundColor = [UIColor purpleColor];
+                }
                
             });
         } else {
             // Permission has been denied.
         }
     }];
+    
 }
 
 -(IBAction)contactPermission:(id)sender
 {
-    POPSpringAnimation *spring = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
-    spring.toValue = [NSValue valueWithCGPoint:CGPointMake(0.9, 0.9)];
-    spring.velocity = [NSValue valueWithCGPoint:CGPointMake(2, 2)];
-    spring.springBounciness = 20.f;
+
     [contacts pop_addAnimation:spring forKey:@"springAnimation"];
     
     CNContactStore* addressBook = [[CNContactStore alloc]init];
@@ -293,29 +304,42 @@
             
             if (granted)
             {
+                contacts.backgroundColor = [UIColor greenColor];
+                buttonIndicate++;
+                if (buttonIndicate == 3)
+                {
+                    button1.userInteractionEnabled = YES;
+                    button1.backgroundColor = [UIColor purpleColor];
+                }
             }
             else
             {}
         }];
     }
+
     
 }
 
 -(IBAction)notificationPermission:(id)sender
 {
-    POPSpringAnimation *spring = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
-    spring.toValue = [NSValue valueWithCGPoint:CGPointMake(0.9, 0.9)];
-    spring.velocity = [NSValue valueWithCGPoint:CGPointMake(2, 2)];
-    spring.springBounciness = 20.f;
+ 
     [notifications pop_addAnimation:spring forKey:@"springAnimation"];
     if (!ParseCheckPermissionForRemoteNotifications())
     {
 
                   ParseRegisterForRemoteNotifications(^(BOOL notificationsAreEnabled)
                                                       {
+                                                          notifications.backgroundColor = [UIColor greenColor];
+                                                          buttonIndicate++;
+                                                          if (buttonIndicate == 3)
+                                                          {
+                                                              button1.userInteractionEnabled = YES;
+                                                              button1.backgroundColor = [UIColor purpleColor];
+                                                          }
                                                       });
             
     }
+
 }
 
 -(void)setUpVideo:(NSString*)fileName :(NSString*)extension
