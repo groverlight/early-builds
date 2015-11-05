@@ -14,7 +14,7 @@
 #import <Contacts/Contacts.h>
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
-@interface VideoViewController ()
+@interface VideoViewController  ()
 
 @property (nonatomic, strong) AVPlayer *avplayer;
 @property (strong, nonatomic) IBOutlet UIView *movieView;
@@ -24,7 +24,7 @@
 
 @end
 
-@implementation VideoViewController
+@implementation VideoViewController     
 {
     AppViewController *appview;
     UIPageControl *pageControl;
@@ -298,13 +298,14 @@
     
     CNContactStore* addressBook = [[CNContactStore alloc]init];
     CNAuthorizationStatus permissions = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
+    contacts.backgroundColor = [UIColor greenColor];
     if(permissions == CNAuthorizationStatusNotDetermined) {
         
         [addressBook requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable contactError) {
             
             if (granted)
             {
-                contacts.backgroundColor = [UIColor greenColor];
+                
                 buttonIndicate++;
                 if (buttonIndicate == 3)
                 {
